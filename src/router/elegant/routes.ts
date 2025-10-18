@@ -117,7 +117,8 @@ export const generatedRoutes: GeneratedRoute[] = [
         component: 'view.manage_user-detail',
         meta: {
           title: 'manage_user-detail',
-          i18nKey: 'route.manage_user-detail'
+          i18nKey: 'route.manage_user-detail',
+          hideInMenu: true
         }
       }
     ]

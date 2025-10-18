@@ -101,9 +101,10 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       let backendErrorCode = '';
 
       // get backend error message and code
-      if (error.code === BACKEND_ERROR_CODE) {
-        message = error.response?.data?.msg || message;
-        backendErrorCode = String(error.response?.data?.code || '');
+      if (error.response) {
+        const data = error.response.data;
+        message = data.msg || data.message || message; // 👈 修改这里
+        backendErrorCode = String(data.code || '');
       }
 
       // the error message is displayed in the modal

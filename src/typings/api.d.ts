@@ -54,17 +54,40 @@ declare namespace Api {
    * backend api module: "auth"
    */
   namespace Auth {
-    interface LoginToken {
-      token: string;
-      refreshToken: string;
+    /** 登录返回的 Token 信息 */
+    interface Token {
+      accessToken: string;
+      expiresIn: string;
     }
 
-    interface UserInfo {
-      userId: string;
+    /** 登录返回的用户信息 */
+    interface User {
+      id: string;
+      email: string;
       userName: string;
+      firstName: string;
+      lastName: string;
       roles: string[];
       buttons: string[];
     }
+
+    /** 登录接口 data 部分 */
+    interface LoginData {
+      user: User;
+      token: Token;
+    }
+
+    /** 登录接口完整响应体 */
+    interface LoginResponse {
+      code: number;
+      success: boolean;
+      data: LoginData;
+      message: string;
+      timestamp: string;
+    }
+
+    /** request 返回的最终类型 */
+    type LoginToken = LoginResponse;
   }
 
   /**
