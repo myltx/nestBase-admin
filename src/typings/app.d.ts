@@ -528,7 +528,7 @@ declare namespace App {
             userGender: string;
             nickName: string;
             userPhone: string;
-            userEmail: string;
+            email: string;
             userStatus: string;
             userRole: string;
             form: {

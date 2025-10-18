@@ -1,7 +1,7 @@
 <script setup lang="tsx">
-// NTag
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
 // import { enableStatusRecord, userGenderRecord } from '@/constants/business';
+import { enableStatusRecord } from '@/constants/business';
 import { fetchGetUserList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -90,26 +90,26 @@ const {
       align: 'center',
       minWidth: 200
     },
-    // {
-    //   key: 'status',
-    //   title: $t('page.manage.user.userStatus'),
-    //   align: 'center',
-    //   width: 100,
-    //   render: row => {
-    //     if (row.status === null) {
-    //       return null;
-    //     }
+    {
+      key: 'status',
+      title: $t('page.manage.user.userStatus'),
+      align: 'center',
+      width: 100,
+      render: row => {
+        if (row.status === null) {
+          return null;
+        }
 
-    //     const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
-    //       1: 'success',
-    //       2: 'warning'
-    //     };
+        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+          1: 'success',
+          2: 'warning'
+        };
 
-    //     const label = $t(enableStatusRecord[row.status]);
+        const label = $t(enableStatusRecord[row.status]);
 
-    //     return <NTag type={tagMap[row.status]}>{label}</NTag>;
-    //   }
-    // },
+        return <NTag type={tagMap[row.status]}>{label}</NTag>;
+      }
+    },
     {
       key: 'operate',
       title: $t('common.operate'),

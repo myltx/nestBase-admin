@@ -27,6 +27,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       width: 48
     },
     {
+      key: 'id',
       title: $t('page.manage.menu.id'),
       align: 'center'
     },

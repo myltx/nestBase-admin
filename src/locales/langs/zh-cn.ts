@@ -279,7 +279,7 @@ const local: App.I18n.Schema = {
         userGender: '性别',
         nickName: '昵称',
         userPhone: '手机号',
-        userEmail: '邮箱',
+        email: '邮箱',
         userStatus: '用户状态',
         userRole: '用户角色',
         form: {

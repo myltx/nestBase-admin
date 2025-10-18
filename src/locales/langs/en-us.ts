@@ -279,7 +279,7 @@ const local: App.I18n.Schema = {
         userGender: 'Gender',
         nickName: 'Nick Name',
         userPhone: 'Phone Number',
-        userEmail: 'Email',
+        email: 'Email',
         userStatus: 'User Status',
         userRole: 'User Role',
         form: {
