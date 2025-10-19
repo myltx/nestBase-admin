@@ -93,11 +93,11 @@ async function handleAccountLogin(account: Account) {
         <!--
  <NButton quaternary @click="toggleLoginModule('reset-pwd')">
           {{ $t('page.login.pwdLogin.forgetPassword') }}
-        </NButton> 
+        </NButton>
 -->
       </div>
       <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
-        {{ $t('common.confirm') }}
+        {{ $t('common.login') }}
       </NButton>
       <!--
  <div class="flex-y-center justify-between gap-12px">

@@ -80,8 +80,10 @@ export const generatedRoutes: GeneratedRoute[] = [
     path: '/manage',
     component: 'layout.base',
     meta: {
+      roles: ['ADMIN'],
       title: 'manage',
-      i18nKey: 'route.manage'
+      i18nKey: 'route.manage',
+      order: 2
     },
     children: [
       {

@@ -307,6 +307,7 @@ declare namespace App {
         updateCancel: string;
       };
       common: {
+        login: string;
         action: string;
         add: string;
         addSuccess: string;

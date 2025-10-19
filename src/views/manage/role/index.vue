@@ -85,12 +85,15 @@ const {
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-        <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-            {$t('common.edit')}
-          </NButton>
-          {!row.isSystem && (
+      render: row => {
+        if (row.isSystem) return null;
+
+        return (
+          <div class="flex-center gap-8px">
+            <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+              {$t('common.edit')}
+            </NButton>
+
             <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
               {{
                 default: () => $t('common.confirmDelete'),
@@ -101,9 +104,9 @@ const {
                 )
               }}
             </NPopconfirm>
-          )}
-        </div>
-      )
+          </div>
+        );
+      }
     }
   ]
 });
