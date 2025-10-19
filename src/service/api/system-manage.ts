@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return request<Api.SystemManage.RoleList>({
-    url: '/systemManage/getRoleList',
+    url: '/api/roles/page',
     method: 'get',
     params
   });
@@ -41,7 +41,7 @@ export function fetchGetMenuList() {
 /** get all pages */
 export function fetchGetAllPages() {
   return request<string[]>({
-    url: '/systemManage/getAllPages',
+    url: '',
     method: 'get'
   });
 }
