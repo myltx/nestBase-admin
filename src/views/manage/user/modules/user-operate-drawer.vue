@@ -49,11 +49,11 @@ const model = ref(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    userName: '',
+    userName: 'testing',
     gender: 'UNKNOWN',
     nickName: '',
     phone: '',
-    email: '',
+    email: '865147643@qq.com',
     roleIds: [],
     status: 1,
     firstName: '',
@@ -111,15 +111,18 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   const { status, ...submitData } = model.value;
-  console.log(status);
-  const data = await createUser(submitData);
 
-  console.log(data);
+  const { error } = await createUser({ ...submitData });
 
+  if (error) {
+    console.log(status);
+    return;
+  }
+
+  // 请求成功的处理
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
-  // window.$message?.error(err.message);
 }
 
 watch(visible, () => {
