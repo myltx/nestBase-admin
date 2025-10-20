@@ -19,10 +19,13 @@ import { $t } from '@/locales';
  * @param record
  */
 export function transformRecordToOption<T extends Record<string, string>>(record: T) {
-  return Object.entries(record).map(([value, label]) => ({
-    value,
-    label
-  })) as CommonType.Option<keyof T, T[keyof T]>[];
+  return Object.entries(record).map(([key, label]) => {
+    const numericKey = Number(key);
+    return {
+      value: !Number.isNaN(numericKey) && key.trim() !== '' ? numericKey : key,
+      label
+    };
+  }) as CommonType.Option<keyof T, T[keyof T]>[];
 }
 
 /**

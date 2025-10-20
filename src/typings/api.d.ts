@@ -29,7 +29,7 @@ declare namespace Api {
      * - "1": enabled
      * - "2": disabled
      */
-    type EnableStatus = '1' | '2';
+    type EnableStatus = 1 | 2;
 
     /** common record */
     type CommonRecord<T = any> = {
@@ -44,7 +44,7 @@ declare namespace Api {
       /** record update time */
       updateTime: string;
       /** record status */
-      status: EnableStatus | null;
+      status: EnableStatus;
     } & T;
   }
 
@@ -88,6 +88,20 @@ declare namespace Api {
 
     /** request 返回的最终类型 */
     type LoginToken = LoginResponse;
+
+    /** 创建用户信息类型 */
+    interface CreateUser {
+      email: string;
+      userName: string;
+      password?: string;
+      firstName?: string;
+      lastName?: string;
+      roleIds?: string[];
+      avatar?: string;
+      phone?: string;
+      gender?: SystemManage.User['gender'];
+      nickName?: string;
+    }
   }
 
   /**

@@ -546,6 +546,7 @@ declare namespace App {
             gender: {
               male: string;
               female: string;
+              unknown: string;
             };
           };
           menu: {

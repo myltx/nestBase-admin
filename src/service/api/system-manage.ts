@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return request<Api.SystemManage.RoleList>({
-    url: '/api/roles/page',
+    url: '/roles/page',
     method: 'get',
     params
   });
@@ -16,7 +16,7 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
  */
 export function fetchGetAllRoles() {
   return request<Api.SystemManage.AllRole[]>({
-    url: '/systemManage/getAllRoles',
+    url: '/roles',
     method: 'get'
   });
 }
@@ -24,7 +24,7 @@ export function fetchGetAllRoles() {
 /** get user list */
 export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
   return request<Api.SystemManage.UserList>({
-    url: '/api/users',
+    url: '/users',
     method: 'get',
     params
   });
@@ -33,7 +33,7 @@ export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
 /** get menu list */
 export function fetchGetMenuList() {
   return request<Api.SystemManage.MenuList>({
-    url: '/api/menus',
+    url: '/menus',
     method: 'get'
   });
 }

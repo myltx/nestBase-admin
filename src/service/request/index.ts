@@ -21,7 +21,10 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
     async onRequest(config) {
       const Authorization = getAuthorization();
       Object.assign(config.headers, { Authorization });
-
+      const globPrefix = import.meta.env.VITE_GLOB_API_URL;
+      if (globPrefix && typeof globPrefix === 'string') {
+        config.url = globPrefix + config.url;
+      }
       return config;
     },
     isBackendSuccess(response) {
@@ -95,27 +98,25 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       return response.data.data;
     },
     onError(error) {
-      // when the request is fail, you can show error message
-
       let message = error.message;
       let backendErrorCode = '';
 
-      // get backend error message and code
       if (error.response) {
-        const data = error.response.data;
-        message = data.msg || data.message || message; // 👈 修改这里
+        const data = error.response.data as any;
         backendErrorCode = String(data.code || '');
+
+        // ✅ 处理 message 可能是数组或字符串的情况
+        if (Array.isArray(data.message)) {
+          message = data.message.join('；'); // 中文分号分隔多个错误
+        } else {
+          message = data.msg || data.message || data.error || message;
+        }
       }
 
-      // the error message is displayed in the modal
+      // 🔥 跳过某些特殊 code 的错误提示（如 modal、token 过期）
       const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
-      if (modalLogoutCodes.includes(backendErrorCode)) {
-        return;
-      }
-
-      // when the token is expired, refresh token and retry request, so no need to show error message
       const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
-      if (expiredTokenCodes.includes(backendErrorCode)) {
+      if (modalLogoutCodes.includes(backendErrorCode) || expiredTokenCodes.includes(backendErrorCode)) {
         return;
       }
 
