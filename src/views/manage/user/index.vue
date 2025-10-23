@@ -28,11 +28,10 @@ const {
     current: 1,
     size: 10,
     status: null,
-    userName: null,
-    userGender: null,
+    search: null,
+    gender: null,
     nickName: null,
-    userPhone: null,
-    email: null
+    phone: null
   },
   columns: () => [
     {
@@ -79,7 +78,7 @@ const {
       minWidth: 100
     },
     {
-      key: 'userPhone',
+      key: 'phone',
       title: $t('page.manage.user.userPhone'),
       align: 'center',
       width: 120

@@ -60,7 +60,10 @@ declare namespace Api {
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<
       Pick<Api.SystemManage.User, 'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'status'> &
-        CommonSearchParams
+        CommonSearchParams & {
+          /** search keyword for general search */
+          search?: string;
+        }
     >;
 
     /** user list */
@@ -72,7 +75,7 @@ declare namespace Api {
      * - "1": directory
      * - "2": menu
      */
-    type MenuType = '1' | '2';
+    type MenuType = 1 | 2;
 
     type MenuButton = {
       /**

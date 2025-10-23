@@ -86,7 +86,7 @@ const model = ref(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    menuType: '1',
+    menuType: 1,
     menuName: '',
     routeName: '',
     routePath: '',
@@ -98,7 +98,7 @@ function createDefaultModel(): Model {
     icon: '',
     iconType: '1',
     parentId: 0,
-    status: '1',
+    status: 1,
     keepAlive: false,
     constant: false,
     order: 0,
@@ -136,7 +136,7 @@ const localIconOptions = localIcons.map<SelectOption>(item => ({
 
 const showLayout = computed(() => model.value.parentId === 0);
 
-const showPage = computed(() => model.value.menuType === '2');
+const showPage = computed(() => model.value.menuType === 2);
 
 const pageOptions = computed(() => {
   const allPages = [...props.allPages];
@@ -172,8 +172,8 @@ async function getRoleOptions() {
 
   if (!error) {
     const options = data.map(item => ({
-      label: item.roleName,
-      value: item.roleCode
+      label: item.name,
+      value: item.code
     }));
 
     roleOptions.value = [...options];
