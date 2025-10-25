@@ -1,234 +1,530 @@
 <div align="center">
 	<img src="./public/favicon.svg" width="160" />
-	<h1>SoybeanAdmin</h1>
-  <span>中文 | <a href="./README.en_US.md">English</a></span>
+	<h1>NestBase Admin</h1>
+  <span>基于 SoybeanAdmin 的企业级后台管理系统</span>
 </div>
 
 ---
 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-[![github stars](https://img.shields.io/github/stars/honghuangdc/soybean-admin)](https://github.com/soybeanjs/soybean-admin)
-[![github forks](https://img.shields.io/github/forks/honghuangdc/soybean-admin)](https://github.com/soybeanjs/soybean-admin)
-[![gitee stars](https://gitee.com/honghuangdc/soybean-admin/badge/star.svg)](https://gitee.com/honghuangdc/soybean-admin)
-[![gitcode star](https://gitcode.com/soybeanjs/soybean-admin/star/badge.svg)](https://gitcode.com/soybeanjs/soybean-admin)
-
-<div style="display: flex; gap: 12px; align-items: center;">
-  <a href="https://trendshift.io/repositories/7963" target="_blank"><img src="https://trendshift.io/api/badge/repositories/7963" alt="soybeanjs%2Fsoybean-admin | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-  <a href="https://hellogithub.com/repository/1298f27d5fe54959a16cf9686516ddb3" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=1298f27d5fe54959a16cf9686516ddb3&claim_uid=IiDXWmP4TEntjbV" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-</div>
+[![Vue](https://img.shields.io/badge/Vue-3.5-green.svg)](https://vuejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.1-blue.svg)](https://vitejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
+[![NaiveUI](https://img.shields.io/badge/NaiveUI-2.43-green.svg)](https://www.naiveui.com/)
 
 > [!NOTE]
-> 如果您觉得 `SoybeanAdmin`对您有所帮助，或者您喜欢我们的项目，请在 GitHub 上给我们一个 ⭐️。您的支持是我们持续改进和增加新功能的动力！感谢您的支持！
+> 本项目基于优秀的开源项目 [SoybeanAdmin](https://github.com/soybeanjs/soybean-admin) 进行开发和定制。
+>
+> SoybeanAdmin 是一个清新优雅、高颜值且功能强大的后台管理模板,为本项目提供了坚实的基础架构。感谢 [Soybean](https://github.com/honghuangdc) 及 SoybeanAdmin 社区的所有贡献者!
+>
+> - **原项目地址**: https://github.com/soybeanjs/soybean-admin
+> - **官方文档**: https://docs.soybeanjs.cn
+> - **预览地址**: https://naive.soybeanjs.cn
 
-> [!NOTE]
-> `SoybeanAdmin` 快速上手系列视频已在 [Bilibili](https://www.bilibili.com/video/BV1YKdRYXELC) 上线 [点击这里](https://www.bilibili.com/video/BV1YKdRYXELC) 前往查看
+## 项目简介
 
-> [!WARNING]
-> `SoybeanAdmin` 正在计划开发 `V2` 版本，详情见[计划清单](https://github.com/soybeanjs/soybean-admin/issues/767)
+**NestBase Admin** 是一款基于 [SoybeanAdmin](https://github.com/soybeanjs/soybean-admin) 深度定制的企业级后台管理系统,专为对接 **NestBaseSystem** 后端服务而设计。本系统在 SoybeanAdmin 优秀的基础架构之上,针对实际业务需求进行了功能扩展和优化,提供完整的 RBAC 权限管理、动态路由、国际化等企业级功能,开箱即用。
 
-## 简介
+### 相比原项目的主要改进
 
-[`SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin) 是一个清新优雅、高颜值且功能强大的后台管理模板，基于最新的前端技术栈，包括 Vue3, Vite7, TypeScript, Pinia 和 UnoCSS。它内置了丰富的主题配置和组件，代码规范严谨，实现了自动化的文件路由系统。此外，它还采用了基于 ApiFox 的在线Mock数据方案。`SoybeanAdmin` 为您提供了一站式的后台管理解决方案，无需额外配置，开箱即用。同样是一个快速学习前沿技术的最佳实践。
+- 🔧 **后端适配**: 完整对接 NestBaseSystem 后端服务,调整 API 接口和数据结构
+- ⚡ **功能增强**: 新增菜单按钮管理功能,支持更细粒度的权限控制
+- 🔒 **安全加固**: 禁止删除 admin 账号,防止误操作
+- 🎨 **界面优化**: 优化用户管理、角色管理等模块的交互体验
+- 📝 **字段完善**: 改进表单字段映射和默认值处理
+- 🌐 **国际化调整**: 根据业务需求调整多语言文案
 
-## 特性
+### 核心特性
 
-- **前沿技术应用**：采用 Vue3, Vite7, TypeScript, Pinia 和 UnoCSS 等最新流行的技术栈。
-- **清晰的项目架构**：采用 pnpm monorepo 架构，结构清晰，优雅易懂。
-- **严格的代码规范**：遵循 [SoybeanJS 规范](https://docs.soybeanjs.cn/zh/standard)，集成了eslint, prettier 和 simple-git-hooks，保证代码的规范性。
-- **TypeScript**： 支持严格的类型检查，提高代码的可维护性。
-- **丰富的主题配置**：内置多样的主题配置，与 UnoCSS 完美结合。
-- **内置国际化方案**：轻松实现多语言支持。
-- **自动化文件路由系统**：自动生成路由导入、声明和类型。更多细节请查看 [Elegant Router](https://github.com/soybeanjs/elegant-router)。
-- **灵活的权限路由**：同时支持前端静态路由和后端动态路由。
-- **丰富的页面组件**：内置多样页面和组件，包括403、404、500页面，以及布局组件、标签组件、主题配置组件等。
-- **命令行工具**：内置高效的命令行工具，git提交、删除文件、发布等。
-- **移动端适配**：完美支持移动端，实现自适应布局。
+- **完整的权限系统**: 用户管理、角色管理、菜单管理,支持按钮级别权限控制
+- **灵活的路由机制**: 支持静态路由与动态路由双模式,自动化文件路由生成
+- **优雅的 UI 设计**: 基于 NaiveUI 组件库,多主题配置,响应式布局
+- **国际化支持**: 内置中英文双语,可扩展多语言
+- **Monorepo 架构**: pnpm workspace 管理,代码复用性强
+- **严格的类型检查**: 全量 TypeScript 支持,类型安全
 
+## 技术栈
 
-## 版本
+### 核心框架
+- **Vue 3.5** - 渐进式 JavaScript 框架
+- **Vite 7.1** - 新一代前端构建工具
+- **TypeScript 5.9** - JavaScript 的超集,提供静态类型检查
+- **Pinia 3.0** - 新一代 Vue 状态管理库
+- **Vue Router 4.5** - Vue.js 官方路由管理器
 
-- **NaiveUI 版本:**
-  - [预览地址](https://naive.soybeanjs.cn/)
-  - [Github 仓库](https://github.com/soybeanjs/soybean-admin)
-  - [Gitee 仓库](https://gitee.com/honghuangdc/soybean-admin)
-  - [Gitcode 仓库](https://gitcode.com/soybeanjs/soybean-admin)
-- **AntDesignVue 版本:**
-  - [预览地址](https://antd.soybeanjs.cn/)
-  - [Github 仓库](https://github.com/soybeanjs/soybean-admin-antd)
-  - [Gitee 仓库](https://gitee.com/honghuangdc/soybean-admin-antd)
-  - [Gitcode 仓库](https://gitcode.com/soybeanjs/soybean-admin-antd)
-- **ElementPlus 版本:**
-  - [预览地址](https://elp.soybeanjs.cn/)
-  - [Github 仓库](https://github.com/soybeanjs/soybean-admin-element-plus)
-  - [Gitee 仓库](https://gitee.com/honghuangdc/soybean-admin-element-plus)
-  - [Gitcode 仓库](https://gitcode.com/soybeanjs/soybean-admin-element-plus)
-- **旧版:**
-  - [预览地址](https://legacy.soybeanjs.cn/)
-  - [Github 仓库](https://github.com/soybeanjs/soybean-admin/tree/legacy)
-  - [Gitee 仓库](https://gitee.com/honghuangdc/soybean-admin/tree/legacy)
-  - [Gitcode 仓库](https://gitcode.com/soybeanjs/soybean-admin/tree/legacy)
+### UI 组件 & 样式
+- **NaiveUI 2.43** - Vue 3 组件库
+- **UnoCSS 66.5** - 原子化 CSS 引擎
+- **Sass 1.92** - CSS 预处理器
+- **Iconify** - 统一的图标框架(10万+ 图标)
 
+### 路由 & 请求
+- **@elegant-router/vue 0.3.8** - 基于文件的自动化路由系统
+- **Axios** (via @sa/axios) - HTTP 请求库
+- **dayjs 1.11** - 轻量级日期处理库
 
-## 文档
+### 开发工具
+- **ESLint 9.35** - 代码质量检查工具
+- **simple-git-hooks 2.13** - Git 钩子管理
+- **vue-devtools 8.0** - Vue 调试工具
 
-- [地址](https://docs.soybeanjs.cn)
-- [旧版文档](https://legacy-docs.soybeanjs.cn)
+## 功能模块
 
+### 1. 系统管理
 
-## 合作事项
+#### 用户管理
+- 用户列表查询(支持分页)
+- 用户增删改操作
+- 搜索过滤: 用户名、昵称、性别、手机号、邮箱、状态
+- 用户详情页面展示
+- 保护 admin 账号不被删除
 
-我们非常感谢大家对 [`SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin) 的支持！为了进一步回馈社区，并助力企业和开发者实现个性化需求，我们现提供多种合作服务，期待与您携手共赢。
+#### 角色管理
+- 角色列表查询(支持分页)
+- 角色 CRUD 操作
+- 搜索过滤: 角色名称、角色代码、状态
+- 角色权限分配(菜单权限、按钮权限)
 
-##### 1、定制化管理后台开发
+#### 菜单管理
+- 树形结构展示菜单
+- 菜单 CRUD 操作
+- 菜单类型: 目录、菜单
+- 路由配置: 路径、名称、组件
+- 图标配置: 支持 Iconify 或本地图标
+- 菜单按钮管理: 为每个菜单配置操作按钮权限
+- 菜单元信息配置:
+  - 国际化标题
+  - 是否隐藏
+  - 是否缓存
+  - 是否固定在标签页
+  - 多标签配置等
 
-针对企业和开发者的特定业务需求，我们提供基于 [`SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin) 的定制化管理后台开发服务。我们的团队具备丰富的行业经验，能够迅速理解并实现您的需求，打造高效、灵活且安全的定制化解决方案。
+### 2. 认证授权
 
-- **定制开发**：我们将根据您的具体需求，提供从需求分析、UI设计到功能实现的全方位服务，确保项目高效交付。
-- **功能扩展**：在 [`SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin) 基础上，扩展您所需的特定功能模块，提升管理后台的功能和用户体验。
+- **登录/登出**: 用户名密码登录
+- **Token 管理**:
+  - Access Token + Refresh Token 双令牌机制
+  - 自动刷新过期的 Token
+  - Token 过期自动跳转登录
+- **会话管理**:
+  - 本地存储持久化
+  - 多用户检测(切换用户自动清除标签页)
+- **权限控制**:
+  - 路由级别权限(通过路由守卫)
+  - 按钮级别权限(通过指令或组件)
 
-##### 2、企业外包服务
+### 3. 路由系统
 
-我们承接各类企业级外包项目，特别是在管理后台系统的开发、集成与运维方面。我们以精益求精的态度，确保项目的质量和进度，为您的业务提供强有力的技术支持。
+基于 **@elegant-router/vue** 实现自动化路由:
+- **文件路由**: 根据 `src/views/` 目录结构自动生成路由
+- **路由模式**:
+  - 静态模式: 前端定义路由(开发友好)
+  - 动态模式: 后端返回路由(生产推荐)
+- **路由守卫**:
+  - 身份验证守卫
+  - 权限验证守卫
+  - 页面进度条守卫
+  - 页面标题守卫
+- **路由缓存**: Keep-alive 支持,可配置缓存策略
 
-- **项目开发**：无论是全新的项目，还是现有系统的优化与集成，我们都将为您量身打造高效可靠的解决方案。
-- **系统集成与维护**：我们也提供基于 [`SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin) 的系统集成与长期维护服务，确保您的系统稳定、安全地运行。
+### 4. 布局系统
 
-##### 3、联系方式
+- **基础布局** (Base Layout):
+  - 侧边栏(可折叠)
+  - 顶部导航栏
+  - 标签页(多页签)
+  - 主内容区
+  - 底部信息
+- **空白布局** (Blank Layout):
+  - 用于登录页、错误页等
+- **布局模式**:
+  - 垂直布局
+  - 混合布局
+- **响应式**: 移动端自适应
 
-如有合作意向或项目咨询，请通过以下方式与我们联系：
+### 5. 主题系统
 
-- **Email**: [soybeanjs@outlook.com](mailto:soybeanjs@outlook.com)
-- **GitHub Issues**: 欢迎通过 [GitHub Issues](https://github.com/soybeanjs/soybean-admin/issues/new) 联系我们，进行初步的合作洽谈。
-- **商务合作微信**:  honghuangdc
+- **主题配置**:
+  - 主题色切换
+  - 暗黑模式
+  - 灰色模式
+  - 色弱模式
+- **布局配置**:
+  - 侧边栏模式
+  - 导航栏模式
+  - 页面动画
+  - 标签页样式
+- **持久化**: LocalStorage 保存配置
 
-期待与您开展深入合作，共同推动 SoybeanAdmin 项目及其在更多领域的成功应用！
+### 6. 国际化 (i18n)
 
+- **语言支持**: 中文、英文
+- **组件国际化**: NaiveUI 组件多语言
+- **日期国际化**: dayjs 日期格式化
+- **动态切换**: 实时切换语言无需刷新
 
-## 示例图片
+### 7. 内置页面
 
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-01.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-02.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-03.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-04.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-05.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-06.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-07.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-08.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-09.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-10.png)
-![](https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/soybean-admin-v1-mobile.png)
+- **首页/仪表盘** (`/home`)
+- **用户管理** (`/manage/user`)
+- **角色管理** (`/manage/role`)
+- **菜单管理** (`/manage/menu`)
+- **用户详情** (`/manage/user-detail/:id`)
+- **403 无权限页**
+- **404 页面不存在**
+- **500 服务器错误**
+- **登录页**
+- **iframe 嵌入页**
 
+## 项目结构
 
-## 使用
-
-**环境准备**
-
-确保你的环境满足以下要求：
-
-- **git**: 你需要git来克隆和管理项目版本。
-- **NodeJS**: >=20.19.0，推荐 20.19.0 或更高。
-- **pnpm**: >= 10.5.0，推荐 10.5.0 或更高。
-
-**克隆项目**
-
-```bash
-# github
-git clone https://github.com/soybeanjs/soybean-admin.git
-# gitee
-git clone https://gitee.com/honghuangdc/soybean-admin.git
-# gitcode
-git clone https://gitcode.com/soybeanjs/soybean-admin.git
+```
+website-admin/
+├── src/                          # 源代码目录
+│   ├── views/                    # 页面组件
+│   │   ├── _builtin/            # 内置页面(404、403、500、登录等)
+│   │   ├── home/                # 首页/仪表盘
+│   │   └── manage/              # 系统管理模块
+│   │       ├── user/            # 用户管理
+│   │       ├── role/            # 角色管理
+│   │       ├── menu/            # 菜单管理
+│   │       └── user-detail/     # 用户详情
+│   │
+│   ├── router/                   # 路由配置
+│   │   ├── routes/              # 路由定义
+│   │   ├── guard/               # 路由守卫
+│   │   └── elegant/             # 自动生成的路由文件
+│   │
+│   ├── store/                    # Pinia 状态管理
+│   │   └── modules/
+│   │       ├── auth/            # 认证状态
+│   │       ├── route/           # 路由状态
+│   │       ├── tab/             # 标签页状态
+│   │       ├── app/             # 应用状态
+│   │       └── theme/           # 主题状态
+│   │
+│   ├── service/                  # API 服务层
+│   │   ├── api/                 # API 接口定义
+│   │   │   ├── auth.ts          # 认证接口
+│   │   │   ├── route.ts         # 路由接口
+│   │   │   ├── system-manage.ts # 系统管理接口
+│   │   │   └── user.ts          # 用户接口
+│   │   └── request/             # 请求封装
+│   │
+│   ├── components/               # 组件库
+│   │   ├── advanced/            # 高级组件
+│   │   ├── common/              # 通用组件
+│   │   └── custom/              # 自定义组件
+│   │
+│   ├── layouts/                  # 布局组件
+│   │   ├── base-layout/         # 基础布局
+│   │   └── blank-layout/        # 空白布局
+│   │
+│   ├── hooks/                    # Vue 组合式函数
+│   │   ├── business/            # 业务相关 hooks
+│   │   └── common/              # 通用 hooks
+│   │
+│   ├── locales/                  # 国际化语言包
+│   │   └── langs/
+│   │       ├── zh-cn/           # 中文
+│   │       └── en-us/           # 英文
+│   │
+│   ├── typings/                  # TypeScript 类型定义
+│   │   ├── api/                 # API 类型
+│   │   ├── app.d.ts             # 应用类型
+│   │   └── router.d.ts          # 路由类型
+│   │
+│   ├── utils/                    # 工具函数
+│   ├── constants/                # 常量定义
+│   ├── enum/                     # 枚举定义
+│   ├── plugins/                  # 插件配置
+│   ├── styles/                   # 全局样式
+│   ├── theme/                    # 主题配置
+│   ├── main.ts                   # 应用入口
+│   └── App.vue                   # 根组件
+│
+├── packages/                     # Monorepo 子包
+│   ├── @sa/axios/               # Axios 封装
+│   ├── @sa/hooks/               # 通用 Hooks
+│   ├── @sa/utils/               # 工具函数
+│   ├── @sa/color/               # 颜色工具
+│   ├── @sa/materials/           # 物料组件
+│   ├── @sa/scripts/             # 脚本工具
+│   └── @sa/uno-preset/          # UnoCSS 预设
+│
+├── build/                        # 构建配置
+│   ├── config/                  # 环境配置、代理配置
+│   └── plugins/                 # Vite 插件配置
+│
+├── .env                          # 环境变量
+├── vite.config.ts               # Vite 配置
+├── tsconfig.json                # TypeScript 配置
+├── package.json                 # 项目依赖
+└── CLAUDE.md                    # 项目说明(供 AI 助手使用)
 ```
 
-**安装依赖**
+## 快速开始
+
+### 环境要求
+
+确保你的开发环境满足以下要求:
+
+- **Node.js**: >= 20.19.0
+- **pnpm**: >= 10.5.0
+- **Git**: 版本控制工具
+
+### 安装
+
+1. **克隆项目**
 
 ```bash
-pnpm i
+git clone <your-repository-url>
+cd website-admin
 ```
-> 由于本项目采用了 pnpm monorepo 的管理方式，因此请不要使用 npm 或 yarn 来安装依赖。
 
-**启动项目**
+2. **安装依赖**
+
+```bash
+pnpm install
+```
+
+> 注意: 本项目使用 pnpm monorepo 架构,请勿使用 npm 或 yarn 安装依赖
+
+### 开发
+
+启动开发服务器:
 
 ```bash
 pnpm dev
 ```
 
-**构建项目**
+服务器将运行在 `http://localhost:9527`
+
+### 构建
+
+#### 生产环境构建
 
 ```bash
 pnpm build
 ```
 
-**代码同步**
+#### 测试环境构建
 
-参考 [代码同步](https://docs.soybeanjs.cn/zh/guide/sync) 文档。
+```bash
+pnpm build:test
+```
 
-## 周边生态
+### 预览
 
-- [react-soybean-admin](https://github.com/mufeng889/react-soybean-admin): 基于SoybeanAdmin的React版本.
-- [electron-mock-admin](https://github.com/lixin59/electron-mock-api): 一个 Mock Api 管理系统，帮助前端开发伙伴快速实现接口的 mock。
-- [T-Shell](https://github.com/TheBlindM/T-Shell): 是一个可配置命令提示的终端模拟器和 SSH 客户端。
-- [pea](https://github.com/haitang1894/pea) : 采用SpringBoot3.2 + JDK21、MyBatis-Plus、SpringSecurity安全框架等，适配 [soybean-admin](https://gitee.com/honghuangdc/soybean-admin) 开发的简单权限系统。
-- [MalusAdmin](https://github.com/pridejoy/MalusAdmin): 基于 Vue3/TypeScript/NaiveUI 和 NET7 & Sqlsugar 开发的后台管理框架。采用最原生最简洁的方式来实现, 前端清新优雅高颜值，后端 结构清晰，优雅易懂，功能强大。
-- [PanisAdmin](https://github.com/paynezhuang/panis-admin): 采用SpringBoot3、SaToken、MySQL等框架开发，二次修改 [soybean-admin](https://github.com/soybeanjs/soybean-admin)，适配动态菜单/按钮级别的鉴权，保留原汁原味、清新优雅、高颜值的后台管理系统脚手架。
-- [snail-job](https://github.com/aizuda/snail-job): 一款兼具 “高性能、高颜值、高活跃” 的分布式任务重试和分布式任务调度平台。
-- [SuperApi](https://github.com/TmmTop/SuperApi): 快速将你的 idea 变成线上稳定运行的产品！ 无实体建库建表，对无实体库表进行增删改查，支持 15 种条件查询，以及分页，列表，无限级树形列表 等功能的 API 部署！ 拥有接口文档，Auth 授权，接口限流，获取客户端真实 IP，先进的服务器缓存组件，动态 API 等功能，期待您的体验！
-- [FastSoyAdmin](https://github.com/sleep1223/fast-soy-admin): 基于 FastAPI+Vue3+Naive UI 的现代化轻量管理平台.
-- [ba](https://github.com/xiatianYa/Ba-Server): 基于goFrame框架开发的后端服务对接soybean-admin,适配动态路由,接口鉴权限。
-- [soybean-admin-go](https://github.com/WgoW/soybean-admin-go):基于gin+gorm框架开发的go语言后端服务对接soybean-admin的example分支,适配动态路由,接口鉴权限。
+预览生产构建:
 
+```bash
+pnpm preview
+```
 
-## 如何贡献
+预览服务器将运行在 `http://localhost:9725`
 
-我们热烈欢迎并感谢所有形式的贡献。如果您有任何想法或建议，欢迎通过提交 [pull requests](https://github.com/soybeanjs/soybean-admin/pulls) 或创建 GitHub [issue](https://github.com/soybeanjs/soybean-admin/issues/new) 来分享。
+## 开发指南
 
-## Git 提交规范
+### 添加新页面
 
-本项目已内置 `commit` 命令，您可以通过执行 `pnpm commit` 来生成符合 [Conventional Commits]([conventionalcommits](https://www.conventionalcommits.org/)) 规范的提交信息。在提交PR时，请务必使用 `commit` 命令来创建提交信息，以确保信息的规范性。
+1. 在 `src/views/` 下创建页面组件
+2. 运行路由生成命令:
 
+```bash
+pnpm gen-route
+```
+
+3. 路由将自动生成到 `src/router/elegant/` 目录
+
+### 添加 API 接口
+
+1. 在 `src/typings/api/` 定义接口类型
+2. 在 `src/service/api/` 创建 API 函数
+3. 使用统一的 `request` 实例发起请求
+
+示例:
+
+```typescript
+// src/service/api/example.ts
+import { request } from '../request';
+
+export function fetchExampleData(params: ExampleParams) {
+  return request<ExampleResponse>({
+    url: '/api/example',
+    method: 'get',
+    params
+  });
+}
+```
+
+### 代码规范
+
+项目遵循 [SoybeanJS 代码规范](https://docs.soybeanjs.cn/zh/standard)
+
+#### 运行 Lint
+
+```bash
+pnpm lint
+```
+
+#### TypeScript 类型检查
+
+```bash
+pnpm typecheck
+```
+
+#### Git 提交
+
+使用交互式提交工具:
+
+```bash
+pnpm commit       # 英文提交信息
+pnpm commit:zh    # 中文提交信息
+```
+
+### 环境变量
+
+主要环境变量配置 (`.env` 文件):
+
+| 变量名 | 说明 | 默认值 |
+|--------|------|--------|
+| `VITE_APP_TITLE` | 应用标题 | NestBaseSystem |
+| `VITE_BASE_URL` | 应用基础路径 | / |
+| `VITE_AUTH_ROUTE_MODE` | 路由模式 | static |
+| `VITE_ROUTER_HISTORY_MODE` | 路由历史模式 | history |
+| `VITE_SERVICE_SUCCESS_CODE` | 后端成功状态码 | 0 |
+| `VITE_HTTP_PROXY` | 是否启用代理 | Y |
+| `VITE_GLOB_API_URL` | API 接口地址 | /api |
+
+## API 接口对接
+
+### 后端接口约定
+
+本项目对接 **NestBaseSystem** 后端服务,接口响应格式:
+
+```typescript
+{
+  code: number;        // 0 表示成功
+  message: string;     // 提示信息
+  data: T;            // 业务数据
+}
+```
+
+### 主要接口
+
+| 接口路径 | 方法 | 说明 |
+|---------|------|------|
+| `/auth/login` | POST | 用户登录 |
+| `/auth/profile` | GET | 获取用户信息 |
+| `/auth/refreshToken` | POST | 刷新 Token |
+| `/users` | GET | 获取用户列表 |
+| `/roles/page` | GET | 获取角色列表(分页) |
+| `/roles` | GET | 获取所有角色 |
+| `/menus` | GET | 获取菜单列表 |
+
+### 错误码处理
+
+- **8888, 8889**: 自动登出并跳转登录页
+- **7777, 7778**: 弹窗提示后登出
+- **9999, 9998, 3333**: Token 过期,自动刷新
+
+## 常见问题
+
+### 1. 路由无法访问?
+
+- 检查路由模式 (`VITE_AUTH_ROUTE_MODE`)
+- 静态模式: 路由在前端定义,适合开发
+- 动态模式: 路由由后端返回,需要接口支持
+
+### 2. 接口请求失败?
+
+- 检查 `VITE_HTTP_PROXY` 是否启用
+- 检查 `build/config/proxy.ts` 代理配置
+- 检查后端服务是否启动
+
+### 3. 类型检查报错?
+
+运行类型检查命令查看详细错误:
+
+```bash
+pnpm typecheck
+```
+
+### 4. Git 提交被拒绝?
+
+项目配置了 pre-commit 钩子,会运行:
+- 类型检查 (`typecheck`)
+- 代码检查 (`lint`)
+- 文件变更检查
+
+确保代码通过所有检查后再提交。
 
 ## 浏览器支持
 
-推荐使用最新版的 Chrome 浏览器进行开发，以获得更好的体验。
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Safari |
+| --------- | --------- | --------- | --------- |
+| last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png" alt="IE" width="24px" height="24px"  />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/) |
-| --- | --- | --- | --- | --- |
-| not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+推荐使用最新版本的 Chrome 浏览器进行开发。
 
-## 开源作者
+## 更新日志
 
-[Soybean](https://github.com/honghuangdc)
+### 最近更新
 
+- ✨ **菜单按钮管理**: 支持为菜单配置操作按钮权限
+- ✨ **优化用户管理**: 改进字段类型和搜索功能
+- 🔒 **保护 admin 账号**: 禁止删除系统管理员账号
+- 🐛 **修复用户表单**: 修正默认值和字段映射问题
 
-## 贡献者
+## 参考资源
 
-感谢以下贡献者的贡献。如果您想为本项目做出贡献，请参考 [如何贡献](#如何贡献)。
+- [Vue 3 官方文档](https://cn.vuejs.org/)
+- [Vite 官方文档](https://cn.vitejs.dev/)
+- [NaiveUI 组件库](https://www.naiveui.com/)
+- [UnoCSS 文档](https://unocss.dev/)
+- [SoybeanAdmin 文档](https://docs.soybeanjs.cn/)
+- [SoybeanJS 代码规范](https://docs.soybeanjs.cn/zh/standard)
 
-<a href="https://github.com/soybeanjs/soybean-admin/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=soybeanjs/soybean-admin" />
-</a>
+## 致谢
 
-## 交流
+### 特别感谢
 
-`SoybeanAdmin` 是完全开源免费的项目，在帮助开发者更方便地进行中大型管理系统开发，同时也提供微信和 QQ 交流群，使用问题欢迎在群内提问。
+本项目基于优秀的开源项目 **[SoybeanAdmin](https://github.com/soybeanjs/soybean-admin)** 进行开发。
 
-  <div>
-  	<p>QQ交流群</p>
-    <img src="https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/qq-soybean-admin-4.jpg" style="width:200px" />
-  </div>
-	<!-- <div>
-		<p>微信群</p>
-		<img src="https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/picgo/soybean-admin-wechat-0620.jpg" style="width:200px" />
-	</div> -->
-	<div>
-		<p>添加下面微信邀请进微信群</p>
-		<img src="https://soybeanjs-1300612522.cos.ap-guangzhou.myqcloud.com/uPic/wechat-soybeanjs.jpg" style="width:200px" />
-	</div>
+SoybeanAdmin 是一个清新优雅、高颜值且功能强大的后台管理模板,它提供了:
+- 🎨 精美的 UI 设计和丰富的主题配置
+- 🏗️ 清晰的项目架构和严格的代码规范
+- 🚀 前沿的技术栈和最佳实践
+- 📦 完善的 Monorepo 架构
+- 🔄 优雅的自动化路由系统
 
-## Star 趋势
+正是因为 SoybeanAdmin 提供的坚实基础,才让本项目能够快速开发并专注于业务功能的实现。
 
-[![Star History Chart](https://api.star-history.com/svg?repos=soybeanjs/soybean-admin&type=Date)](https://star-history.com/#soybeanjs/soybean-admin&Date)
+**衷心感谢:**
+- 原作者 [Soybean](https://github.com/honghuangdc) 的辛勤付出
+- SoybeanAdmin 社区的所有贡献者
+- 所有为开源社区做出贡献的开发者们
+
+**相关链接:**
+- 原项目仓库: https://github.com/soybeanjs/soybean-admin
+- 项目官方文档: https://docs.soybeanjs.cn
+- 在线预览地址: https://naive.soybeanjs.cn
+
+如果您觉得 SoybeanAdmin 对您有帮助,欢迎给原项目一个 ⭐️ Star!
+
+### 技术栈相关
+
+同时感谢以下优秀的开源项目:
+- [Vue.js](https://vuejs.org/) - 渐进式 JavaScript 框架
+- [Vite](https://vitejs.dev/) - 下一代前端构建工具
+- [NaiveUI](https://www.naiveui.com/) - Vue 3 组件库
+- [UnoCSS](https://unocss.dev/) - 即时按需原子化 CSS 引擎
+- [Pinia](https://pinia.vuejs.org/) - Vue 状态管理库
+- [TypeScript](https://www.typescriptlang.org/) - JavaScript 的超集
 
 ## 开源协议
 
-项目基于 [MIT © 2021 Soybean](./LICENSE) 协议，仅供学习参考，商业使用请保留作者版权信息，作者不保证也不承担任何软件的使用风险。
+本项目基于 [MIT](./LICENSE) 协议开源,仅供学习参考。
+
+在使用本项目代码时,请保留对 SoybeanAdmin 原项目的版权声明和致谢信息。
