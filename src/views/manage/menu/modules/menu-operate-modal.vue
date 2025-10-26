@@ -228,14 +228,14 @@ function handleUpdateI18nKeyByRouteName() {
   }
 }
 
-// function handleCreateButton() {
-//   const buttonItem: Api.SystemManage.MenuButton = {
-//     code: '',
-//     desc: ''
-//   };
+function handleCreateButton() {
+  const buttonItem: Api.SystemManage.MenuButton = {
+    code: '',
+    desc: ''
+  };
 
-//   return buttonItem;
-// }
+  return buttonItem;
+}
 
 function getSubmitParams() {
   const { layout, page, pathParam, ...params } = model.value;
