@@ -6,6 +6,7 @@ import { useBoolean } from '@sa/hooks';
 import { yesOrNoRecord } from '@/constants/common';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
 import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
+import { deleteMenu } from '@/service/api/menu';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -186,15 +187,16 @@ function handleAdd() {
 async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
-
   onBatchDeleted();
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
   console.log(id);
-
-  onDeleted();
+  const { error } = await deleteMenu(id);
+  if (!error) {
+    onDeleted();
+  }
 }
 
 /** the edit menu data or the parent menu data when adding a child menu */

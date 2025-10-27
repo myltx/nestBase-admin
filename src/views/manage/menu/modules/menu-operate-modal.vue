@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import type { SelectOption } from 'naive-ui';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import { fetchGetAllRoles } from '@/service/api';
+import { createMenu } from '@/service/api/menu';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { getLocalIcons } from '@/utils/icon';
 import { $t } from '@/locales';
@@ -75,8 +76,8 @@ type Model = Pick<
   | 'multiTab'
   | 'fixedIndexInTab'
 > & {
-  query: NonNullable<Api.SystemManage.Menu['query']>;
-  buttons: NonNullable<Api.SystemManage.Menu['buttons']>;
+  // query: NonNullable<Api.SystemManage.Menu['query']>;
+  // buttons: NonNullable<Api.SystemManage.Menu['buttons']>;
   layout: string;
   page: string;
   pathParam: string;
@@ -107,8 +108,8 @@ function createDefaultModel(): Model {
     activeMenu: null,
     multiTab: false,
     fixedIndexInTab: null,
-    query: [],
-    buttons: []
+    query: []
+    // buttons: []
   };
 }
 
@@ -253,13 +254,12 @@ async function handleSubmit() {
   await validate();
 
   const params = getSubmitParams();
-
-  console.log('params: ', params);
-
-  // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  const { error } = await createMenu(params);
+  if (!error) {
+    window.$message?.success($t('common.updateSuccess'));
+    closeDrawer();
+    emit('submitted');
+  }
 }
 
 watch(visible, () => {
@@ -427,7 +427,8 @@ watch(
           </NFormItemGi>
 -->
 
-          <NFormItemGi span="24" :label="$t('page.manage.menu.button')">
+          <!--
+ <NFormItemGi span="24" :label="$t('page.manage.menu.button')">
             <NDynamicInput v-model:value="model.buttons" :on-create="handleCreateButton">
               <template #default="{ value }">
                 <div class="ml-8px flex-y-center flex-1 gap-12px">
@@ -455,6 +456,7 @@ watch(
               </template>
             </NDynamicInput>
           </NFormItemGi>
+-->
         </NGrid>
       </NForm>
     </NScrollbar>
