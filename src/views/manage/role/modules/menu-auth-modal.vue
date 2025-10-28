@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch } from 'vue';
-import { fetchGetAllPages, fetchGetMenuTree } from '@/service/api/menu';
+import { computed, ref, shallowRef, watch } from 'vue';
+import { fetchGetMenuTree, getMenuRouteNameList } from '@/service/api/menu';
+import { getRoleMenuList, updateRoleMenuList } from '@/service/api/role';
 import { $t } from '@/locales';
 
 defineOptions({
@@ -17,6 +18,7 @@ const props = defineProps<Props>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
+const loading = ref(false);
 
 function closeModal() {
   visible.value = false;
@@ -41,7 +43,7 @@ async function updateHome(val: string) {
 const pages = shallowRef<string[]>([]);
 
 async function getPages() {
-  const { error, data } = await fetchGetAllPages();
+  const { error, data } = await getMenuRouteNameList();
 
   if (!error) {
     pages.value = data;
@@ -70,18 +72,24 @@ async function getTree() {
 const checks = shallowRef<number[]>([]);
 
 async function getChecks() {
-  console.log(props.roleId);
-  // request
-  checks.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+  const { error, data } = (await getRoleMenuList(props.roleId)) as any;
+  if (!error) {
+    checks.value = data.map((item: Api.SystemManage.MenuTree) => item.id);
+  }
 }
 
-function handleSubmit() {
-  console.log(checks.value, props.roleId);
-  // request
+async function handleSubmit() {
+  loading.value = true;
+  const { error } = await updateRoleMenuList({
+    id: props.roleId,
+    menuIds: checks.value
+  });
+  loading.value = false;
+  if (!error) {
+    window.$message?.success?.($t('common.modifySuccess'));
 
-  window.$message?.success?.($t('common.modifySuccess'));
-
-  closeModal();
+    closeModal();
+  }
 }
 
 function init() {
@@ -99,7 +107,7 @@ watch(visible, val => {
 </script>
 
 <template>
-  <NModal v-model:show="visible" :title="title" preset="card" class="w-480px">
+  <NModal v-model:show="visible" :title="title" preset="card" class="w-480px" :mask-closable="false">
     <div class="flex-y-center gap-16px pb-12px">
       <div>{{ $t('page.manage.menu.home') }}</div>
       <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
@@ -111,6 +119,7 @@ watch(visible, val => {
       checkable
       expand-on-click
       virtual-scroll
+      label-field="menuName"
       block-line
       class="h-280px"
     />
@@ -119,7 +128,7 @@ watch(visible, val => {
         <NButton size="small" class="mt-16px" @click="closeModal">
           {{ $t('common.cancel') }}
         </NButton>
-        <NButton type="primary" size="small" class="mt-16px" @click="handleSubmit">
+        <NButton type="primary" size="small" class="mt-16px" :loading="loading" @click="handleSubmit">
           {{ $t('common.confirm') }}
         </NButton>
       </NSpace>

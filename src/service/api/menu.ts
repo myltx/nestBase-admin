@@ -51,7 +51,7 @@ export function getMenuRouteNameList() {
 /** get menu tree */
 export function fetchGetMenuTree() {
   return request<Api.SystemManage.MenuTree[]>({
-    url: '/systemManage/getMenuTree',
+    url: `${ServicePrefixEnum.MENU}/tree`,
     method: 'get'
   });
 }

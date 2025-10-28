@@ -58,3 +58,20 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
     params
   });
 }
+
+/** update role menu list */
+export function updateRoleMenuList(data: { id: string | number; menuIds: number[] | string[] }) {
+  return request<Api.SystemManage.RoleList>({
+    url: `${ServicePrefixEnum.ROLE}/${data.id}/menus`,
+    method: RequestEnum.POST,
+    data
+  });
+}
+
+/** get role menu list */
+export function getRoleMenuList(id: string | number) {
+  return request<Api.CommonResponse<any>>({
+    url: `${ServicePrefixEnum.ROLE}/${id}/menus`,
+    method: RequestEnum.GET
+  });
+}
