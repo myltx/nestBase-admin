@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { useBoolean } from '@sa/hooks';
 import { enableStatusOptions } from '@/constants/business';
+import { createRole, updateRole } from '@/service/api/role';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import MenuAuthModal from './menu-auth-modal.vue';
@@ -26,6 +27,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
+const loading = ref(false);
 const visible = defineModel<boolean>('visible', {
   default: false
 });
@@ -82,11 +84,40 @@ function closeDrawer() {
 }
 
 async function handleSubmit() {
-  await validate();
-  // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  const isEditing = isEdit.value;
+  loading.value = true;
+
+  try {
+    await validate();
+
+    if (isEditing) {
+      // ✅ 编辑逻辑：明确 id 存在
+      if (!props.rowData?.id) throw new Error('缺少角色 ID');
+      const params: Api.SystemManage.UpdateRole = {
+        ...model.value,
+        id: props.rowData.id
+      };
+      const { error } = await updateRole(params);
+      if (!error) {
+        window.$message?.success($t('common.updateSuccess'));
+        emit('submitted');
+        closeDrawer();
+      }
+    } else {
+      // ✅ 新增逻辑：id 不存在
+      const params: Api.SystemManage.CreateRole = { ...model.value };
+      const { error } = await createRole(params);
+      if (!error) {
+        window.$message?.success($t('common.addSuccess'));
+        emit('submitted');
+        closeDrawer();
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  } finally {
+    loading.value = false;
+  }
 }
 
 watch(visible, () => {
@@ -133,7 +164,7 @@ watch(visible, () => {
       <template #footer>
         <NSpace :size="16">
           <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+          <NButton type="primary" :loading="loading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
         </NSpace>
       </template>
     </NDrawerContent>

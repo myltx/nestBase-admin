@@ -169,6 +169,12 @@ declare namespace Api {
       pId: number;
       children?: MenuTree[];
     };
+
+    /** create role */
+    type CreateRole = Pick<Api.SystemManage.Role, 'name' | 'code' | 'description'>;
+
+    /** update role */
+    type UpdateRole = Pick<Api.SystemManage.Role, 'name' | 'code' | 'description'> & { id: number };
   }
 
   // 添加一个 通用的接口返回成功的类型

@@ -7,7 +7,7 @@ import { request } from '../request';
  *
  */
 
-export function createRole(data: Api.SystemManage.CreateMenu) {
+export function createRole(data: Api.SystemManage.CreateRole) {
   return request<Api.CommonResponse<any>>({
     url: `${ServicePrefixEnum.ROLE}`,
     method: RequestEnum.POST,
@@ -19,9 +19,9 @@ export function createRole(data: Api.SystemManage.CreateMenu) {
  * 更新角色
  *
  */
-export function updateRole(data: Api.SystemManage.UpdateMenu) {
+export function updateRole(data: Api.SystemManage.UpdateRole) {
   return request<Api.Auth.LoginData>({
-    url: `${ServicePrefixEnum.MENU}/${data.id}`,
+    url: `${ServicePrefixEnum.ROLE}/${data.id}`,
     method: RequestEnum.PATCH,
     data
   });
@@ -33,7 +33,7 @@ export function updateRole(data: Api.SystemManage.UpdateMenu) {
  */
 export function deleteRole(id: number) {
   return request<Api.Auth.LoginData>({
-    url: `${ServicePrefixEnum.MENU}/${id}`,
+    url: `${ServicePrefixEnum.ROLE}/${id}`,
     method: RequestEnum.DELETE
   });
 }
@@ -45,7 +45,7 @@ export function deleteRole(id: number) {
  */
 export function fetchGetAllRoles() {
   return request<Api.SystemManage.AllRole[]>({
-    url: '/roles',
+    url: `${ServicePrefixEnum.ROLE}`,
     method: 'get'
   });
 }
@@ -53,7 +53,7 @@ export function fetchGetAllRoles() {
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return request<Api.SystemManage.RoleList>({
-    url: '/roles/page',
+    url: `${ServicePrefixEnum.ROLE}/page`,
     method: 'get',
     params
   });
