@@ -5,8 +5,8 @@ import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { yesOrNoRecord } from '@/constants/common';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
-import { deleteMenu } from '@/service/api/menu';
+import { fetchGetMenuList } from '@/service/api';
+import { deleteMenu, getMenuRouteNameList } from '@/service/api/menu';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -71,9 +71,9 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       align: 'center',
       width: 60,
       render: row => {
-        const icon = row.iconType === '1' ? row.icon : undefined;
+        const icon = row.iconType === 1 ? row.icon : undefined;
 
-        const localIcon = row.iconType === '2' ? row.icon : undefined;
+        const localIcon = row.iconType === 2 ? row.icon : undefined;
 
         return (
           <div class="flex-center">
@@ -220,7 +220,7 @@ function handleAddChildMenu(item: Api.SystemManage.Menu) {
 const allPages = ref<string[]>([]);
 
 async function getAllPages() {
-  const { data: pages } = await fetchGetAllPages();
+  const { data: pages } = await getMenuRouteNameList();
   allPages.value = pages || [];
 }
 

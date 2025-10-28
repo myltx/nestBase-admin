@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue';
 import type { SelectOption } from 'naive-ui';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import { fetchGetAllRoles } from '@/service/api';
-import { createMenu } from '@/service/api/menu';
+import { createMenu, updateMenu } from '@/service/api/menu';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { getLocalIcons } from '@/utils/icon';
 import { $t } from '@/locales';
@@ -45,6 +45,8 @@ const visible = defineModel<boolean>('visible', {
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
+
+const loading = ref(false);
 
 const title = computed(() => {
   const titles: Record<OperateType, string> = {
@@ -97,7 +99,7 @@ function createDefaultModel(): Model {
     page: '',
     i18nKey: null,
     icon: '',
-    iconType: '1',
+    iconType: 1,
     parentId: 0,
     status: 1,
     keepAlive: false,
@@ -107,8 +109,8 @@ function createDefaultModel(): Model {
     hideInMenu: false,
     activeMenu: null,
     multiTab: false,
-    fixedIndexInTab: null,
-    query: []
+    fixedIndexInTab: null
+    // query: []
     // buttons: []
   };
 }
@@ -201,12 +203,12 @@ function handleInitModel() {
     Object.assign(model.value, rest, { layout, page, routePath: path, pathParam: param });
   }
 
-  if (!model.value.query) {
-    model.value.query = [];
-  }
-  if (!model.value.buttons) {
-    model.value.buttons = [];
-  }
+  // if (!model.value.query) {
+  //   model.value.query = [];
+  // }
+  // if (!model.value.buttons) {
+  //   model.value.buttons = [];
+  // }
 }
 
 function closeDrawer() {
@@ -229,16 +231,16 @@ function handleUpdateI18nKeyByRouteName() {
   }
 }
 
-function handleCreateButton() {
-  const buttonItem: Api.SystemManage.MenuButton = {
-    code: '',
-    desc: ''
-  };
+// function handleCreateButton() {
+//   const buttonItem: Api.SystemManage.MenuButton = {
+//     code: '',
+//     desc: ''
+//   };
 
-  return buttonItem;
-}
+//   return buttonItem;
+// }
 
-function getSubmitParams() {
+function getSubmitParams(): Api.SystemManage.CreateMenu {
   const { layout, page, pathParam, ...params } = model.value;
 
   const component = transformLayoutAndPageToComponent(layout, page);
@@ -252,9 +254,12 @@ function getSubmitParams() {
 
 async function handleSubmit() {
   await validate();
+  loading.value = true;
 
   const params = getSubmitParams();
-  const { error } = await createMenu(params);
+  const apiFn: any = props.operateType === 'edit' ? updateMenu : createMenu;
+  const { error } = await apiFn(params);
+  loading.value = false;
   if (!error) {
     window.$message?.success($t('common.updateSuccess'));
     closeDrawer();
@@ -332,14 +337,14 @@ watch(
             </NRadioGroup>
           </NFormItemGi>
           <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.icon')" path="icon">
-            <template v-if="model.iconType === '1'">
+            <template v-if="model.iconType === 1">
               <NInput v-model:value="model.icon" :placeholder="$t('page.manage.menu.form.icon')" class="flex-1">
                 <template #suffix>
                   <SvgIcon v-if="model.icon" :icon="model.icon" class="text-icon" />
                 </template>
               </NInput>
             </template>
-            <template v-if="model.iconType === '2'">
+            <template v-if="model.iconType === 2">
               <NSelect
                 v-model:value="model.icon"
                 :placeholder="$t('page.manage.menu.form.localIcon')"
@@ -463,7 +468,7 @@ watch(
     <template #footer>
       <NSpace justify="end" :size="16">
         <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-        <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+        <NButton type="primary" :loading="loading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
       </NSpace>
     </template>
   </NModal>

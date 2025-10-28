@@ -94,7 +94,7 @@ declare namespace Api {
      * - "1": iconify icon
      * - "2": local icon
      */
-    type IconType = '1' | '2';
+    type IconType = 1 | 2;
 
     type MenuPropsOfRoute = Pick<
       import('vue-router').RouteMeta,
@@ -134,6 +134,31 @@ declare namespace Api {
     }> &
       MenuPropsOfRoute;
 
+    type CreateMenu = {
+      /** parent menu id */
+      parentId: number;
+      /** menu type */
+      menuType: MenuType;
+      /** menu name */
+      menuName: string;
+      /** route name */
+      routeName: string;
+      /** route path */
+      routePath: string;
+      /** component */
+      component?: string;
+      /** iconify icon name or local icon name */
+      icon: string;
+      /** icon type */
+      iconType: IconType;
+      /** buttons */
+      buttons?: MenuButton[] | null;
+      /** children menu */
+      children?: Menu[] | null;
+    } & MenuPropsOfRoute;
+
+    type UpdateMenu = Partial<Omit<CreateMenu, 'parentId'>> & { id: number };
+
     /** menu list */
     type MenuList = Common.PaginatingQueryRecord<Menu>;
 
@@ -144,4 +169,11 @@ declare namespace Api {
       children?: MenuTree[];
     };
   }
+
+  // 添加一个 通用的接口返回成功的类型
+  type CommonResponse<T> = {
+    code: number;
+    message: string;
+    data: T;
+  };
 }
