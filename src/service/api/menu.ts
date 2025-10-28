@@ -15,7 +15,7 @@ export function createMenu(data: Api.SystemManage.CreateMenu) {
   });
 }
 /**
- * 创建菜单
+ * 更新菜单
  *
  */
 
@@ -42,8 +42,32 @@ export function deleteMenu(id: number) {
  *
  */
 export function getMenuRouteNameList() {
-  return request<Api.CommonResponse<string[]>>({
+  return request<string[]>({
     url: `${ServicePrefixEnum.MENU}/route-names`,
     method: RequestEnum.GET
+  });
+}
+
+/** get menu tree */
+export function fetchGetMenuTree() {
+  return request<Api.SystemManage.MenuTree[]>({
+    url: '/systemManage/getMenuTree',
+    method: 'get'
+  });
+}
+
+/** get menu list */
+export function fetchGetMenuList() {
+  return request<Api.SystemManage.MenuList>({
+    url: `${ServicePrefixEnum.MENU}`,
+    method: 'get'
+  });
+}
+
+/** get all pages */
+export function fetchGetAllPages() {
+  return request<string[]>({
+    url: '',
+    method: 'get'
   });
 }

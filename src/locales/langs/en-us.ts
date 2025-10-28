@@ -272,7 +272,8 @@ const local: App.I18n.Schema = {
           roleDesc: 'Please enter role description'
         },
         addRole: 'Add Role',
-        editRole: 'Edit Role'
+        editRole: 'Edit Role',
+        resourcesAuth: 'Resources Auth'
       },
       user: {
         title: 'User List',

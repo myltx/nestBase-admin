@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { enableStatusRecord } from '@/constants/business';
-import { fetchGetRoleList } from '@/service/api';
+import { fetchGetRoleList } from '@/service/api/role';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -84,26 +84,34 @@ const {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 200,
       render: row => {
-        if (row.isSystem) return null;
-
         return (
           <div class="flex-center gap-8px">
-            <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-              {$t('common.edit')}
-            </NButton>
-
-            <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-              {{
-                default: () => $t('common.confirmDelete'),
-                trigger: () => (
-                  <NButton type="error" ghost size="small">
-                    {$t('common.delete')}
-                  </NButton>
-                )
-              }}
-            </NPopconfirm>
+            {/* 所有人都显示资源授权按钮 */}
+            {/* <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+              {$t('page.manage.role.resourcesAuth')}
+            </NButton> */}
+            {
+              <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+                {$t('common.edit')}
+              </NButton>
+            }
+            {/* 只有非管理员显示编辑和删除 */}
+            {!row.isSystem && (
+              <>
+                <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+                  {{
+                    default: () => $t('common.confirmDelete'),
+                    trigger: () => (
+                      <NButton type="error" ghost size="small">
+                        {$t('common.delete')}
+                      </NButton>
+                    )
+                  }}
+                </NPopconfirm>
+              </>
+            )}
           </div>
         );
       }

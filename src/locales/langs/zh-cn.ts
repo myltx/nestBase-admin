@@ -272,7 +272,8 @@ const local: App.I18n.Schema = {
           roleDesc: '请输入角色描述'
         },
         addRole: '新增角色',
-        editRole: '编辑角色'
+        editRole: '编辑角色',
+        resourcesAuth: '资源'
       },
       user: {
         title: '用户列表',

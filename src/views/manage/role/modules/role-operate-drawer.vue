@@ -52,7 +52,7 @@ function createDefaultModel(): Model {
     name: '',
     code: '',
     description: '',
-    status: null
+    status: 1
   };
 }
 
@@ -105,7 +105,11 @@ watch(visible, () => {
           <NInput v-model:value="model.name" :placeholder="$t('page.manage.role.form.roleName')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleCode')" path="code">
-          <NInput v-model:value="model.code" :placeholder="$t('page.manage.role.form.roleCode')" />
+          <NInput
+            v-model:value="model.code"
+            :placeholder="$t('page.manage.role.form.roleCode')"
+            :disabled="props.operateType === 'edit'"
+          />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleStatus')" path="status">
           <NRadioGroup v-model:value="model.status">
@@ -113,7 +117,11 @@ watch(visible, () => {
           </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleDesc')" path="description">
-          <NInput v-model:value="model.description" :placeholder="$t('page.manage.role.form.roleDesc')" />
+          <NInput
+            v-model:value="model.description"
+            type="textarea"
+            :placeholder="$t('page.manage.role.form.roleDesc')"
+          />
         </NFormItem>
       </NForm>
       <NSpace v-if="isEdit">

@@ -5,8 +5,7 @@ import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
 import { yesOrNoRecord } from '@/constants/common';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
-import { fetchGetMenuList } from '@/service/api';
-import { deleteMenu, getMenuRouteNameList } from '@/service/api/menu';
+import { deleteMenu, fetchGetMenuList, getMenuRouteNameList } from '@/service/api/menu';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -221,7 +220,7 @@ const allPages = ref<string[]>([]);
 
 async function getAllPages() {
   const { data: pages } = await getMenuRouteNameList();
-  allPages.value = pages || [];
+  allPages.value = { data: pages }.data || [];
 }
 
 function init() {

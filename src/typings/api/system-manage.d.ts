@@ -134,6 +134,7 @@ declare namespace Api {
     }> &
       MenuPropsOfRoute;
 
+    /** create menu */
     type CreateMenu = {
       /** parent menu id */
       parentId: number;
