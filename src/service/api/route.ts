@@ -1,13 +1,15 @@
+import { ServicePrefixEnum } from '@/enum/commonEnum';
+import { RequestEnum } from '@/enum/httpEnum';
 import { request } from '../request';
 
 /** get constant routes */
 export function fetchGetConstantRoutes() {
-  return request<Api.Route.MenuRoute[]>({ url: '/route/getConstantRoutes' });
+  return request<Api.Route.MenuRoute[]>({ url: `${ServicePrefixEnum.MENU}/constant-routes`, method: RequestEnum.GET });
 }
 
 /** get user routes */
 export function fetchGetUserRoutes() {
-  return request<Api.Route.UserRoute>({ url: '/route/getUserRoutes' });
+  return request<Api.Route.MenuRoute[]>({ url: `${ServicePrefixEnum.MENU}/user-routes`, method: RequestEnum.GET });
 }
 
 /**

@@ -49,9 +49,9 @@ export function getMenuRouteNameList() {
 }
 
 /** get menu tree */
-export function fetchGetMenuTree() {
+export function fetchGetMenuTree(constantOnly?: boolean) {
   return request<Api.SystemManage.MenuTree[]>({
-    url: `${ServicePrefixEnum.MENU}/tree`,
+    url: `${ServicePrefixEnum.MENU}/tree?constantOnly=${constantOnly}`,
     method: 'get'
   });
 }

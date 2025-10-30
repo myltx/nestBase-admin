@@ -62,7 +62,7 @@ const pageSelectOptions = computed(() => {
 const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
 
 async function getTree() {
-  const { error, data } = await fetchGetMenuTree();
+  const { error, data } = await fetchGetMenuTree(false);
 
   if (!error) {
     tree.value = data;
@@ -74,7 +74,8 @@ const checks = shallowRef<number[]>([]);
 async function getChecks() {
   const { error, data } = (await getRoleMenuList(props.roleId)) as any;
   if (!error) {
-    checks.value = data.map((item: Api.SystemManage.MenuTree) => item.id);
+    checks.value = data?.menus.map((item: Api.SystemManage.MenuTree) => item.id);
+    home.value = data?.home;
   }
 }
 
@@ -93,7 +94,7 @@ async function handleSubmit() {
 }
 
 function init() {
-  getHome();
+  // getHome();
   getPages();
   getTree();
   getChecks();
