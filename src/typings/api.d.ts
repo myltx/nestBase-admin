@@ -102,6 +102,14 @@ declare namespace Api {
       gender?: SystemManage.User['gender'];
       nickName?: string;
     }
+
+    /** 用户权限列表类型 */
+    interface UserPermission {
+      id: string;
+      name: string;
+      type: 'button' | 'menu';
+      permission: string;
+    }
   }
 
   /**

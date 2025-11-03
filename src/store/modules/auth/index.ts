@@ -2,7 +2,7 @@ import { computed, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api/auth';
+import { fetchGetUserInfo, fetchGetUserPermissionList, fetchLogin } from '@/service/api/auth';
 import { useRouterPush } from '@/hooks/common/router';
 import { localStg } from '@/utils/storage';
 import { SetupStoreId } from '@/enum';
@@ -154,7 +154,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     if (!error) {
       // update store
       Object.assign(userInfo, info);
+      // 3. get user permission
+      const { data: permissionList, error: permissionError } = (await fetchGetUserPermissionList()) as any;
 
+      if (!permissionError) {
+        localStg.set('permissionList', permissionList.permissions);
+      }
       return true;
     }
 

@@ -23,6 +23,11 @@ export function fetchGetUserInfo() {
   return request<Api.Auth.User>({ url: `${ServicePrefixEnum.AUTH}/profile` });
 }
 
+/** Get User Permission List */
+export function fetchGetUserPermissionList() {
+  return request<Api.Auth.UserPermission[]>({ url: `${ServicePrefixEnum.AUTH}/permissions` });
+}
+
 /**
  * Refresh token
  *
