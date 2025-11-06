@@ -9,6 +9,7 @@ import { SetupStoreId } from '@/enum';
 import { createStaticRoutes, getAuthVueRoutes } from '@/router/routes';
 import { ROOT_ROUTE } from '@/router/routes/builtin';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
+import { generatedRoutes } from '@/router/elegant/routes';
 import { useAuthStore } from '../auth';
 import { useTabStore } from '../tab';
 import {
@@ -74,6 +75,18 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     });
 
     authRoutes.value = Array.from(authRoutesMap.values());
+  }
+
+  function mergeRoutesByName(routes: ElegantConstRoute[]) {
+    const routeMap = new Map<string, ElegantConstRoute>();
+
+    routes.forEach(route => {
+      if (route?.name) {
+        routeMap.set(route.name, route);
+      }
+    });
+
+    return Array.from(routeMap.values());
   }
 
   const removeRouteFns: (() => void)[] = [];
@@ -160,7 +173,13 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
       const { data, error } = await fetchGetConstantRoutes();
 
       if (!error) {
-        addConstantRoutes(data);
+        // 这里可以从静态路由获取静态配置的需要默认存在的路由,然后与动态路由合并
+        const routeNames = import.meta.env.VITE_DEFAULT_ROUTE_NAMES?.split(',') || [];
+        const routes = generatedRoutes.filter(route => routeNames.includes(route.name as string));
+        const serverConstantRoutes = (Array.isArray(data) ? data : []) as ElegantConstRoute[];
+        const mergedConstantRoutes = mergeRoutesByName([...routes, ...serverConstantRoutes]);
+
+        addConstantRoutes(mergedConstantRoutes);
       } else {
         // if fetch constant routes failed, use static constant routes
         addConstantRoutes(staticRoute.constantRoutes);
