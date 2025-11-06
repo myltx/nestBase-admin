@@ -173,7 +173,8 @@ const local: App.I18n.Schema = {
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
-    manage_project: '项目管理'
+    manage_project: '项目管理',
+    manage_content: '内容管理'
   },
   page: {
     login: {
