@@ -265,6 +265,7 @@ const local: App.I18n.Schema = {
         roleDesc: 'Role Description',
         menuAuth: 'Menu Auth',
         buttonAuth: 'Button Auth',
+        userAuth: 'User Auth',
         form: {
           roleName: 'Please enter role name',
           roleCode: 'Please enter role code',

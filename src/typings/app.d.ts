@@ -522,6 +522,7 @@ declare namespace App {
             editRole: string;
             menuAuth: string;
             buttonAuth: string;
+            userAuth: string;
             resourcesAuth: string;
           };
           user: {
