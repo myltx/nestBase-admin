@@ -179,27 +179,38 @@ declare namespace Api {
     /** article status */
     type ArticleStatus = 'DRAFT' | 'PUBLISHED' | 'OFFLINE';
 
+    /** article edit type */
+    type ArticleEditType = 'MARKDOWN' | 'RICHTEXT' | 'UPLOAD';
+
     type Article = Omit<Api.Common.CommonRecord, 'status'> & {
       /** article title */
       title: string;
       /** article slug */
       slug?: string;
-      /** belong category */
-      category: string;
-      /** cover image url */
-      coverUrl?: string | null;
       /** article summary */
       summary?: string | null;
-      /** article content */
-      content?: string | null;
-      /** article tags */
-      tags: string[];
+      /** editor type */
+      editorType: ArticleEditType;
+      /** markdown content */
+      contentMd?: string | null;
+      /** rich text(html) content */
+      contentHtml?: string | null;
+      /** raw uploaded content */
+      contentRaw?: string | null;
+      /** cover image url */
+      coverImage?: string | null;
+      /** belong category id */
+      categoryId?: string | null;
+      /** tag id list */
+      tagIds: string[];
       /** author */
       author: string;
       /** publish time */
       publishTime?: string | null;
       /** is top */
       isTop: boolean;
+      /** is recommend */
+      isRecommend: boolean;
       /** article status */
       status: ArticleStatus;
       /** view count */
@@ -209,9 +220,11 @@ declare namespace Api {
     type ArticleSearchParams = CommonType.RecordNullable<
       {
         title: string;
-        category: string;
+        categoryId: string;
         status: ArticleStatus;
-        isTop: CommonType.YesOrNo;
+        editorType: ArticleEditType;
+        isTop: boolean;
+        isRecommend: boolean;
         dateRange: [string, string];
       } & CommonSearchParams
     >;
@@ -220,7 +233,20 @@ declare namespace Api {
 
     type ArticlePayload = Pick<
       Article,
-      'title' | 'slug' | 'category' | 'summary' | 'coverUrl' | 'content' | 'tags' | 'author' | 'publishTime' | 'isTop' | 'status'
+      | 'title'
+      | 'slug'
+      | 'summary'
+      | 'editorType'
+      | 'contentMd'
+      | 'contentHtml'
+      | 'contentRaw'
+      | 'coverImage'
+      | 'categoryId'
+      | 'tagIds'
+      | 'author'
+      | 'publishTime'
+      | 'isTop'
+      | 'isRecommend'
     >;
 
     type CreateArticle = ArticlePayload;

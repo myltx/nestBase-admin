@@ -1,30 +1,29 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import dayjs from 'dayjs';
-import { articleStatusOptions } from '@/constants/business';
+import { articleEditTypeOptions } from '@/constants/business';
 import { createArticle, updateArticle } from '@/service/api/content';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { translateOptions } from '@/utils/common';
 import { $t } from '@/locales';
+import MarkdownEditor from './markdown-editor.vue';
+import RichtextEditor from './richtext-editor.vue';
+import UploadEditor from './upload-editor.vue';
 
 defineOptions({
   name: 'ArticleOperateDrawer'
 });
 
 interface Props {
-  /** 操作类型 */
   operateType: NaiveUI.TableOperateType;
-  /** 编辑数据 */
   rowData?: Api.SystemManage.Article | null;
 }
 
 const props = defineProps<Props>();
 
-interface Emits {
+const emit = defineEmits<{
   (e: 'submitted'): void;
-}
-
-const emit = defineEmits<Emits>();
+}>();
 
 const visible = defineModel<boolean>('visible', {
   default: false
@@ -35,47 +34,65 @@ const loading = ref(false);
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
-const statusOptions = computed(() => translateOptions(articleStatusOptions));
+const editTypeOptions = computed(() => translateOptions(articleEditTypeOptions));
 
-type Model = Api.SystemManage.CreateArticle & { tagsInput?: string };
+type Model = Api.SystemManage.CreateArticle & { tagIdsInput?: string };
+
+const editorContentMap = ref<Record<Api.SystemManage.ArticleEditType, string>>({
+  MARKDOWN: '',
+  RICHTEXT: '',
+  UPLOAD: ''
+});
 
 const model = ref<Model>(createDefaultModel());
+
+const currentEditorContent = computed({
+  get: () => editorContentMap.value[model.value.editorType] || '',
+  set: val => {
+    editorContentMap.value[model.value.editorType] = val;
+  }
+});
 
 function createDefaultModel(): Model {
   return {
     title: '',
     slug: '',
-    category: '',
     summary: '',
-    coverUrl: '',
-    content: '',
-    tags: [],
+    editorType: 'MARKDOWN',
+    contentMd: '',
+    contentHtml: '',
+    contentRaw: '',
+    coverImage: '',
+    categoryId: '',
+    tagIds: [],
     author: '',
     publishTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     isTop: false,
-    status: 'DRAFT',
-    tagsInput: ''
+    isRecommend: false,
+    tagIdsInput: ''
   };
 }
 
 const isEdit = computed(() => props.operateType === 'edit');
 
-const drawerTitle = computed(() => {
-  return isEdit.value ? $t('page.manage.content.editArticle') : $t('page.manage.content.addArticle');
-});
+const drawerTitle = computed(() =>
+  isEdit.value ? $t('page.manage.content.editArticle') : $t('page.manage.content.addArticle')
+);
 
 const rules: Record<string, App.Global.FormRule | App.Global.FormRule[]> = {
   title: defaultRequiredRule,
-  category: defaultRequiredRule,
+  summary: defaultRequiredRule,
+  editorType: defaultRequiredRule,
+  categoryId: defaultRequiredRule,
   author: defaultRequiredRule,
-  status: defaultRequiredRule
+  coverImage: defaultRequiredRule
 };
 
 function closeDrawer() {
   visible.value = false;
 }
 
-function parseTags(input?: string) {
+function parseTagIds(input?: string) {
   if (!input) return [];
   return input
     .split(',')
@@ -83,54 +100,81 @@ function parseTags(input?: string) {
     .filter(Boolean);
 }
 
+function resetEditorContent(article?: Api.SystemManage.Article | null) {
+  editorContentMap.value = {
+    MARKDOWN: article?.contentMd || '',
+    RICHTEXT: article?.contentHtml || '',
+    UPLOAD: article?.contentRaw || ''
+  };
+}
+
 function handleInitModel() {
-  const defaultModel = createDefaultModel();
   const article = props.rowData;
   if (article) {
-    const tags = article.tags || [];
-    Object.assign(defaultModel, {
+    model.value = {
       title: article.title || '',
       slug: article.slug || '',
-      category: article.category || '',
       summary: article.summary || '',
-      coverUrl: article.coverUrl || '',
-      content: article.content || '',
-      tags,
+      editorType: article.editorType || 'MARKDOWN',
+      contentMd: article.contentMd || '',
+      contentHtml: article.contentHtml || '',
+      contentRaw: article.contentRaw || '',
+      coverImage: article.coverImage || '',
+      categoryId: article.categoryId || '',
+      tagIds: article.tagIds || [],
       author: article.author || '',
       publishTime: article.publishTime || '',
       isTop: article.isTop ?? false,
-      status: article.status ?? 'DRAFT',
-      tagsInput: tags.join(', ')
-    });
+      isRecommend: article.isRecommend ?? false,
+      tagIdsInput: (article.tagIds || []).join(', ')
+    };
+    resetEditorContent(article);
+  } else {
+    model.value = createDefaultModel();
+    resetEditorContent(null);
   }
-  model.value = defaultModel;
 }
 
 async function handleSubmit() {
   loading.value = true;
   try {
     await validate();
+    const tagIds = parseTagIds(model.value.tagIdsInput);
+    model.value.tagIds = tagIds;
 
-    const { tagsInput, ...rest } = model.value;
     const payload: Api.SystemManage.CreateArticle = {
-      ...rest,
-      tags: parseTags(tagsInput)
+      title: model.value.title,
+      slug: model.value.slug,
+      summary: model.value.summary,
+      editorType: model.value.editorType,
+      coverImage: model.value.coverImage,
+      categoryId: model.value.categoryId || '',
+      tagIds,
+      author: model.value.author,
+      publishTime: model.value.publishTime,
+      isTop: model.value.isTop,
+      isRecommend: model.value.isRecommend
     };
-    model.value.tags = payload.tags;
+
+    const contentValue = currentEditorContent.value;
+    if (payload.editorType === 'MARKDOWN') {
+      payload.contentMd = contentValue;
+    } else if (payload.editorType === 'RICHTEXT') {
+      payload.contentHtml = contentValue;
+    } else {
+      payload.contentRaw = contentValue;
+    }
 
     if (isEdit.value && props.rowData) {
-      const params: Api.SystemManage.UpdateArticle = { ...payload, id: props.rowData.id };
-      await updateArticle(params);
+      await updateArticle({ ...payload, id: props.rowData.id });
       window.$message?.success($t('common.updateSuccess'));
-      emit('submitted');
-      closeDrawer();
     } else {
-      const params: Api.SystemManage.CreateArticle = payload;
-      await createArticle(params);
+      await createArticle(payload);
       window.$message?.success($t('common.addSuccess'));
-      emit('submitted');
-      closeDrawer();
     }
+
+    emit('submitted');
+    closeDrawer();
   } finally {
     loading.value = false;
   }
@@ -154,31 +198,29 @@ watch(visible, value => {
         <NFormItem :label="$t('page.manage.content.articleSlug')" path="slug">
           <NInput v-model:value="model.slug" :placeholder="$t('page.manage.content.form.slug')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.content.category')" path="category">
-          <NInput v-model:value="model.category" :placeholder="$t('page.manage.content.form.category')" />
+        <NFormItem :label="$t('page.manage.content.summary')" path="summary">
+          <NInput
+            v-model:value="model.summary"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            :placeholder="$t('page.manage.content.form.summary')"
+          />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.content.category')" path="categoryId">
+          <NInput v-model:value="model.categoryId" :placeholder="$t('page.manage.content.form.category')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.author')" path="author">
           <NInput v-model:value="model.author" :placeholder="$t('page.manage.content.form.author')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.content.statusTitle')" path="status">
-          <NSelect
-            v-model:value="model.status"
-            :options="statusOptions"
-            :placeholder="$t('page.manage.content.form.status')"
-          />
+        <NFormItem :label="$t('page.manage.content.coverImage')" path="coverImage">
+          <NInput v-model:value="model.coverImage" :placeholder="$t('page.manage.content.form.coverImage')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.content.isTop')" path="isTop">
-          <NSwitch v-model:value="model.isTop">
-            <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
-            <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
-          </NSwitch>
-        </NFormItem>
-        <NFormItem :label="$t('page.manage.content.tags')" path="tags">
+        <NFormItem :label="$t('page.manage.content.tagIds')" path="tagIds">
           <NInput
-            v-model:value="model.tagsInput"
+            v-model:value="model.tagIdsInput"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4 }"
-            :placeholder="$t('page.manage.content.form.tags')"
+            :placeholder="$t('page.manage.content.form.tagIds')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.publishTime')" path="publishTime">
@@ -190,24 +232,33 @@ watch(visible, value => {
             :placeholder="$t('page.manage.content.form.publishTime')"
           />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.content.summary')" path="summary">
-          <NInput
-            v-model:value="model.summary"
-            type="textarea"
-            :autosize="{ minRows: 3, maxRows: 6 }"
-            :placeholder="$t('page.manage.content.form.summary')"
-          />
+        <NFormItem :label="$t('page.manage.content.isTop')" path="isTop">
+          <NSwitch v-model:value="model.isTop">
+            <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
+            <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
+          </NSwitch>
         </NFormItem>
-        <NFormItem :label="$t('page.manage.content.coverUrl')" path="coverUrl">
-          <NInput v-model:value="model.coverUrl" :placeholder="$t('page.manage.content.form.coverUrl')" />
+        <NFormItem :label="$t('page.manage.content.isRecommend')" path="isRecommend">
+          <NSwitch v-model:value="model.isRecommend">
+            <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
+            <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
+          </NSwitch>
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.content.editType')" path="editorType">
+          <NRadioGroup v-model:value="model.editorType">
+            <NRadioButton
+              v-for="item in editTypeOptions"
+              :key="item.value"
+              :value="item.value as Api.SystemManage.ArticleEditType"
+            >
+              {{ item.label }}
+            </NRadioButton>
+          </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.content')" path="content">
-          <NInput
-            v-model:value="model.content"
-            type="textarea"
-            :rows="8"
-            :placeholder="$t('page.manage.content.form.content')"
-          />
+          <MarkdownEditor v-if="model.editorType === 'MARKDOWN'" v-model="currentEditorContent" />
+          <RichtextEditor v-else-if="model.editorType === 'RICHTEXT'" v-model="currentEditorContent" />
+          <UploadEditor v-else v-model="currentEditorContent" />
         </NFormItem>
       </NForm>
       <template #footer>

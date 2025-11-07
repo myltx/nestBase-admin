@@ -36,3 +36,11 @@ export const articleStatusRecord: Record<Api.SystemManage.ArticleStatus, App.I18
 };
 
 export const articleStatusOptions = transformRecordToOption(articleStatusRecord);
+
+export const articleEditTypeRecord: Record<Api.SystemManage.ArticleEditType, App.I18n.I18nKey> = {
+  MARKDOWN: 'page.manage.content.editTypeMap.markdown',
+  RICHTEXT: 'page.manage.content.editTypeMap.richtext',
+  UPLOAD: 'page.manage.content.editTypeMap.upload'
+};
+
+export const articleEditTypeOptions = transformRecordToOption(articleEditTypeRecord);

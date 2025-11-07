@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { articleStatusRecord } from '@/constants/business';
+import { articleEditTypeRecord, articleStatusRecord } from '@/constants/business';
 import { yesOrNoRecord } from '@/constants/common';
 import { deleteArticle, fetchGetArticleList, updateArticleStatus, updateArticleTop } from '@/service/api/content';
 import { useAppStore } from '@/store/modules/app';
@@ -24,7 +24,7 @@ const statusTagMap: Record<Api.SystemManage.ArticleStatus, NaiveUI.ThemeColor> =
   OFFLINE: 'warning'
 };
 
-const topTagMap: Record<CommonType.YesOrNo, NaiveUI.ThemeColor> = {
+const booleanTagMap: Record<CommonType.YesOrNo, NaiveUI.ThemeColor> = {
   Y: 'primary',
   N: 'default'
 };
@@ -46,9 +46,11 @@ const {
     current: 1,
     size: 10,
     title: null,
-    category: null,
+    categoryId: null,
     status: null,
     isTop: null,
+    isRecommend: null,
+    editorType: null,
     dateRange: null
   },
   columns: () => [
@@ -69,9 +71,15 @@ const {
       minWidth: 180
     },
     {
-      key: 'category',
+      key: 'categoryId',
       title: $t('page.manage.content.category'),
       width: 120
+    },
+    {
+      key: 'tagIds',
+      title: $t('page.manage.content.tagIds'),
+      minWidth: 140,
+      render: row => (row.tagIds && row.tagIds.length ? row.tagIds.join(', ') : '-')
     },
     {
       key: 'author',
@@ -97,8 +105,26 @@ const {
       render: row => {
         const flag: CommonType.YesOrNo = row.isTop ? 'Y' : 'N';
         const label = $t(yesOrNoRecord[flag]);
-        return <NTag type={topTagMap[flag]}>{label}</NTag>;
+        return <NTag type={booleanTagMap[flag]}>{label}</NTag>;
       }
+    },
+    {
+      key: 'isRecommend',
+      title: $t('page.manage.content.isRecommend'),
+      align: 'center',
+      width: 120,
+      render: row => {
+        const flag: CommonType.YesOrNo = row.isRecommend ? 'Y' : 'N';
+        const label = $t(yesOrNoRecord[flag]);
+        return <NTag type={booleanTagMap[flag]}>{label}</NTag>;
+      }
+    },
+    {
+      key: 'editorType',
+      title: $t('page.manage.content.editType'),
+      align: 'center',
+      width: 140,
+      render: row => $t(articleEditTypeRecord[row.editorType])
     },
     {
       key: 'publishTime',
@@ -243,7 +269,7 @@ function edit(id: number) {
         :data="data"
         size="small"
         :flex-height="!appStore.isMobile"
-        :scroll-x="1200"
+        :scroll-x="1400"
         :loading="loading"
         :row-key="row => row.id"
         :pagination="mobilePagination"

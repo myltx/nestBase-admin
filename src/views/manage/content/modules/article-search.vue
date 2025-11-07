@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { articleStatusOptions } from '@/constants/business';
-import { yesOrNoOptions } from '@/constants/common';
+import { articleEditTypeOptions, articleStatusOptions } from '@/constants/business';
 import { translateOptions } from '@/utils/common';
 import { $t } from '@/locales';
 
@@ -21,7 +20,11 @@ const model = defineModel<Api.SystemManage.ArticleSearchParams>('model', {
 });
 
 const statusOptions = computed(() => translateOptions(articleStatusOptions));
-const topOptions = computed(() => translateOptions(yesOrNoOptions));
+const editTypeOptions = computed(() => translateOptions(articleEditTypeOptions));
+const booleanOptions = computed(() => [
+  { label: $t('common.yesOrNo.yes'), value: true },
+  { label: $t('common.yesOrNo.no'), value: false }
+]);
 
 function reset() {
   emit('reset');
@@ -46,8 +49,13 @@ function search() {
             >
               <NInput v-model:value="model.title" :placeholder="$t('page.manage.content.search.title')" />
             </NFormItemGi>
-            <NFormItemGi span="24 s:12 m:6" class="pr-24px" :label="$t('page.manage.content.category')" path="category">
-              <NInput v-model:value="model.category" :placeholder="$t('page.manage.content.search.category')" />
+            <NFormItemGi
+              span="24 s:12 m:6"
+              class="pr-24px"
+              :label="$t('page.manage.content.category')"
+              path="categoryId"
+            >
+              <NInput v-model:value="model.categoryId" :placeholder="$t('page.manage.content.search.category')" />
             </NFormItemGi>
             <NFormItemGi
               span="24 s:12 m:6"
@@ -62,12 +70,38 @@ function search() {
                 :placeholder="$t('page.manage.content.search.status')"
               />
             </NFormItemGi>
+            <NFormItemGi
+              span="24 s:12 m:6"
+              class="pr-24px"
+              :label="$t('page.manage.content.editType')"
+              path="editorType"
+            >
+              <NSelect
+                v-model:value="model.editorType"
+                clearable
+                :options="editTypeOptions"
+                :placeholder="$t('page.manage.content.search.editType')"
+              />
+            </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" class="pr-24px" :label="$t('page.manage.content.isTop')" path="isTop">
               <NSelect
                 v-model:value="model.isTop"
                 clearable
-                :options="topOptions"
+                :options="booleanOptions"
                 :placeholder="$t('page.manage.content.search.isTop')"
+              />
+            </NFormItemGi>
+            <NFormItemGi
+              span="24 s:12 m:6"
+              class="pr-24px"
+              :label="$t('page.manage.content.isRecommend')"
+              path="isRecommend"
+            >
+              <NSelect
+                v-model:value="model.isRecommend"
+                clearable
+                :options="booleanOptions"
+                :placeholder="$t('page.manage.content.search.isRecommend')"
               />
             </NFormItemGi>
             <NFormItemGi
