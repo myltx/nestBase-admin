@@ -174,7 +174,9 @@ const local: App.I18n.Schema = {
     manage_role: '角色管理',
     manage_menu: '菜单管理',
     manage_project: '项目管理',
-    manage_content: '内容管理'
+    manage_content: '内容管理',
+    manage_category: '分类管理',
+    manage_tag: '标签管理'
   },
   page: {
     login: {
@@ -322,6 +324,38 @@ const local: App.I18n.Schema = {
         uploadFailed: '文件读取失败，请重试',
         uploadButton: '上传 Markdown 文件',
         uploading: '上传中...'
+      },
+      category: {
+        title: '分类管理',
+        treeTitle: '分类树',
+        name: '分类名称',
+        slug: '分类别名',
+        description: '分类描述',
+        parent: '父级分类',
+        order: '排序',
+        addRoot: '新增根分类',
+        addChild: '新增子分类',
+        editCategory: '编辑分类',
+        deleteCategory: '删除分类',
+        form: {
+          name: '请输入分类名称',
+          slug: '请输入分类别名',
+          description: '请输入分类描述',
+          order: '请输入排序'
+        }
+      },
+      tag: {
+        title: '标签管理',
+        name: '标签名称',
+        slug: '标签别名',
+        description: '标签描述',
+        addTag: '新增标签',
+        editTag: '编辑标签',
+        form: {
+          name: '请输入标签名称',
+          slug: '请输入标签别名',
+          description: '请输入标签描述'
+        }
       },
       role: {
         title: '角色列表',

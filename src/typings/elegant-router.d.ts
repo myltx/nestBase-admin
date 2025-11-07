@@ -24,10 +24,12 @@ declare module "@elegant-router/types" {
     "iframe-page": "/iframe-page/:url";
     "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?";
     "manage": "/manage";
+    "manage_category": "/manage/category";
     "manage_content": "/manage/content";
     "manage_menu": "/manage/menu";
     "manage_project": "/manage/project";
     "manage_role": "/manage/role";
+    "manage_tag": "/manage/tag";
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
   };
@@ -90,10 +92,12 @@ declare module "@elegant-router/types" {
     | "iframe-page"
     | "login"
     | "home"
+    | "manage_category"
     | "manage_content"
     | "manage_menu"
     | "manage_project"
     | "manage_role"
+    | "manage_tag"
     | "manage_user-detail"
     | "manage_user"
   >;

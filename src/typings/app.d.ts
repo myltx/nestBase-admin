@@ -683,6 +683,38 @@ declare namespace App {
             uploadButton: string;
             uploading: string;
           };
+          category: {
+            title: string;
+            treeTitle: string;
+            name: string;
+            slug: string;
+            description: string;
+            parent: string;
+            order: string;
+            addRoot: string;
+            addChild: string;
+            editCategory: string;
+            deleteCategory: string;
+            form: {
+              name: string;
+              slug: string;
+              description: string;
+              order: string;
+            };
+          };
+          tag: {
+            title: string;
+            name: string;
+            slug: string;
+            description: string;
+            addTag: string;
+            editTag: string;
+            form: {
+              name: string;
+              slug: string;
+              description: string;
+            };
+          };
         };
       };
       form: {

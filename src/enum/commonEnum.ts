@@ -4,5 +4,7 @@ export enum ServicePrefixEnum {
   USER = '/users',
   MENU = '/menus',
   ROLE = '/roles',
-  CONTENT = '/contents'
+  CONTENT = '/contents',
+  CATEGORY = '/categories',
+  TAG = '/tags'
 }

@@ -252,6 +252,54 @@ declare namespace Api {
     type CreateArticle = ArticlePayload;
 
     type UpdateArticle = ArticlePayload & { id: number };
+
+    type Category = {
+      id: string;
+      name: string;
+      slug: string;
+      description?: string | null;
+      parentId?: string | null;
+      order?: number | string | null;
+      children?: Category[];
+    };
+
+    type CategoryTree = Category;
+
+    type CreateCategory = {
+      name: string;
+      slug: string;
+      description?: string | null;
+      parentId?: string | null;
+      order?: number | string | null;
+    };
+
+    type UpdateCategory = Partial<CreateCategory> & { id: string };
+
+    type Tag = {
+      id: string;
+      name: string;
+      slug: string;
+      description?: string | null;
+      createTime?: string;
+      updateTime?: string;
+    };
+
+    type TagList = Common.PaginatingQueryRecord<Tag>;
+
+    type TagSearchParams = CommonType.RecordNullable<
+      {
+        search: string;
+        slug: string;
+      } & CommonSearchParams
+    >;
+
+    type CreateTag = {
+      name: string;
+      slug: string;
+      description?: string | null;
+    };
+
+    type UpdateTag = Partial<CreateTag> & { id: string };
   }
 
   // 添加一个 通用的接口返回成功的类型

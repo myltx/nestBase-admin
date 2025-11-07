@@ -174,7 +174,9 @@ const local: App.I18n.Schema = {
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
     manage_project: 'Project Manage',
-    manage_content: 'Content Manage'
+    manage_content: 'Content Manage',
+    manage_category: 'Category Manage',
+    manage_tag: 'Tag Manage'
   },
   page: {
     login: {
@@ -322,6 +324,38 @@ const local: App.I18n.Schema = {
         uploadFailed: 'Failed to read file',
         uploadButton: 'Upload Markdown',
         uploading: 'Uploading...'
+      },
+      category: {
+        title: 'Category Manage',
+        treeTitle: 'Category Tree',
+        name: 'Category Name',
+        slug: 'Slug',
+        description: 'Description',
+        parent: 'Parent Category',
+        order: 'Order',
+        addRoot: 'Add Root Category',
+        addChild: 'Add Subcategory',
+        editCategory: 'Edit Category',
+        deleteCategory: 'Delete Category',
+        form: {
+          name: 'Please enter category name',
+          slug: 'Please enter slug',
+          description: 'Please enter description',
+          order: 'Please enter order'
+        }
+      },
+      tag: {
+        title: 'Tag Manage',
+        name: 'Tag Name',
+        slug: 'Slug',
+        description: 'Description',
+        addTag: 'Add Tag',
+        editTag: 'Edit Tag',
+        form: {
+          name: 'Please enter tag name',
+          slug: 'Please enter slug',
+          description: 'Please enter description'
+        }
       },
       role: {
         title: 'Role List',

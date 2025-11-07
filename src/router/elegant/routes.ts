@@ -87,6 +87,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
+        name: 'manage_category',
+        path: '/manage/category',
+        component: 'view.manage_category',
+        meta: {
+          title: 'manage_category',
+          i18nKey: 'route.manage_category'
+        }
+      },
+      {
         name: 'manage_content',
         path: '/manage/content',
         component: 'view.manage_content',
@@ -120,6 +129,15 @@ export const generatedRoutes: GeneratedRoute[] = [
         meta: {
           title: 'manage_role',
           i18nKey: 'route.manage_role'
+        }
+      },
+      {
+        name: 'manage_tag',
+        path: '/manage/tag',
+        component: 'view.manage_tag',
+        meta: {
+          title: 'manage_tag',
+          i18nKey: 'route.manage_tag'
         }
       },
       {
