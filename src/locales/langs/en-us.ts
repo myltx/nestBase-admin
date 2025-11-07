@@ -259,6 +259,54 @@ const local: App.I18n.Schema = {
           disable: 'Disable'
         }
       },
+      content: {
+        title: 'Article List',
+        articleTitle: 'Article Title',
+        articleSlug: 'Slug',
+        category: 'Category',
+        author: 'Author',
+        content: 'Content',
+        statusTitle: 'Article Status',
+        isTop: 'Pinned',
+        publishTime: 'Publish Time',
+        updateTime: 'Updated At',
+        viewCount: 'View Count',
+        summary: 'Summary',
+        tags: 'Tags',
+        coverUrl: 'Cover URL',
+        addArticle: 'Create Article',
+        editArticle: 'Edit Article',
+        preview: 'Preview',
+        publish: 'Publish',
+        offlineAction: 'Offline',
+        setTop: 'Pin to top',
+        cancelTop: 'Unpin',
+        status: {
+          draft: 'Draft',
+          published: 'Published',
+          offline: 'Offline'
+        },
+        search: {
+          title: 'Please enter article title',
+          category: 'Please enter category',
+          status: 'Please select status',
+          isTop: 'Select pinned state',
+          publishTime: 'Please select publish time range'
+        },
+        form: {
+          title: 'Please enter article title',
+          slug: 'Please enter article slug',
+          category: 'Please enter article category',
+          author: 'Please enter author',
+          status: 'Please select article status',
+          isTop: 'Select whether pinned',
+          tags: 'Separate tags with comma',
+          publishTime: 'Please select publish time',
+          summary: 'Please enter summary',
+          coverUrl: 'Please enter cover image url',
+          content: 'Please enter article content'
+        }
+      },
       role: {
         title: 'Role List',
         roleName: 'Role Name',

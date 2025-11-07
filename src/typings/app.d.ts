@@ -619,6 +619,54 @@ declare namespace App {
               local: string;
             };
           };
+          content: {
+            title: string;
+            articleTitle: string;
+            articleSlug: string;
+            category: string;
+            author: string;
+            content: string;
+            statusTitle: string;
+            isTop: string;
+            publishTime: string;
+            updateTime: string;
+            viewCount: string;
+            summary: string;
+            tags: string;
+            coverUrl: string;
+            addArticle: string;
+            editArticle: string;
+            preview: string;
+            publish: string;
+            offlineAction: string;
+            setTop: string;
+            cancelTop: string;
+            status: {
+              draft: string;
+              published: string;
+              offline: string;
+            };
+            search: {
+              title: string;
+              category: string;
+              status: string;
+              isTop: string;
+              publishTime: string;
+            };
+            form: {
+              title: string;
+              slug: string;
+              category: string;
+              author: string;
+              status: string;
+              isTop: string;
+              tags: string;
+              publishTime: string;
+              summary: string;
+              coverUrl: string;
+              content: string;
+            };
+          };
         };
       };
       form: {

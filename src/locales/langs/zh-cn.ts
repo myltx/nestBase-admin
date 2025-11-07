@@ -259,6 +259,54 @@ const local: App.I18n.Schema = {
           disable: '禁用'
         }
       },
+      content: {
+        title: '文章列表',
+        articleTitle: '文章标题',
+        articleSlug: '文章别名',
+        category: '所属分类',
+        author: '作者',
+        content: '内容',
+        statusTitle: '文章状态',
+        isTop: '是否置顶',
+        publishTime: '发布时间',
+        updateTime: '更新时间',
+        viewCount: '阅读量',
+        summary: '摘要',
+        tags: '标签',
+        coverUrl: '封面地址',
+        addArticle: '新增文章',
+        editArticle: '编辑文章',
+        preview: '预览文章',
+        publish: '发布',
+        offlineAction: '下线',
+        setTop: '设为置顶',
+        cancelTop: '取消置顶',
+        status: {
+          draft: '草稿',
+          published: '已发布',
+          offline: '已下线'
+        },
+        search: {
+          title: '请输入文章标题',
+          category: '请输入分类',
+          status: '请选择文章状态',
+          isTop: '请选择是否置顶',
+          publishTime: '请选择发布时间范围'
+        },
+        form: {
+          title: '请输入文章标题',
+          slug: '请输入文章别名',
+          category: '请输入文章分类',
+          author: '请输入作者',
+          status: '请选择文章状态',
+          isTop: '请选择是否置顶',
+          tags: '多个标签以英文逗号分隔',
+          publishTime: '请选择发布时间',
+          summary: '请输入文章摘要',
+          coverUrl: '请输入封面地址',
+          content: '请输入文章内容'
+        }
+      },
       role: {
         title: '角色列表',
         roleName: '角色名称',

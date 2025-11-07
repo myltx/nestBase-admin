@@ -175,6 +175,57 @@ declare namespace Api {
 
     /** update role */
     type UpdateRole = Pick<Api.SystemManage.Role, 'name' | 'code' | 'description'> & { id: number };
+
+    /** article status */
+    type ArticleStatus = 'DRAFT' | 'PUBLISHED' | 'OFFLINE';
+
+    type Article = Omit<Api.Common.CommonRecord, 'status'> & {
+      /** article title */
+      title: string;
+      /** article slug */
+      slug?: string;
+      /** belong category */
+      category: string;
+      /** cover image url */
+      coverUrl?: string | null;
+      /** article summary */
+      summary?: string | null;
+      /** article content */
+      content?: string | null;
+      /** article tags */
+      tags: string[];
+      /** author */
+      author: string;
+      /** publish time */
+      publishTime?: string | null;
+      /** is top */
+      isTop: boolean;
+      /** article status */
+      status: ArticleStatus;
+      /** view count */
+      viewCount: number;
+    };
+
+    type ArticleSearchParams = CommonType.RecordNullable<
+      {
+        title: string;
+        category: string;
+        status: ArticleStatus;
+        isTop: CommonType.YesOrNo;
+        dateRange: [string, string];
+      } & CommonSearchParams
+    >;
+
+    type ArticleList = Common.PaginatingQueryRecord<Article>;
+
+    type ArticlePayload = Pick<
+      Article,
+      'title' | 'slug' | 'category' | 'summary' | 'coverUrl' | 'content' | 'tags' | 'author' | 'publishTime' | 'isTop' | 'status'
+    >;
+
+    type CreateArticle = ArticlePayload;
+
+    type UpdateArticle = ArticlePayload & { id: number };
   }
 
   // 添加一个 通用的接口返回成功的类型

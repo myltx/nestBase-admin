@@ -28,3 +28,11 @@ export const menuIconTypeRecord: Record<Api.SystemManage.IconType, App.I18n.I18n
 };
 
 export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
+
+export const articleStatusRecord: Record<Api.SystemManage.ArticleStatus, App.I18n.I18nKey> = {
+  DRAFT: 'page.manage.content.status.draft',
+  PUBLISHED: 'page.manage.content.status.published',
+  OFFLINE: 'page.manage.content.status.offline'
+};
+
+export const articleStatusOptions = transformRecordToOption(articleStatusRecord);

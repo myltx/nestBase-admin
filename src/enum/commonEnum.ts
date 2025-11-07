@@ -3,5 +3,6 @@ export enum ServicePrefixEnum {
   AUTH = '/auth',
   USER = '/users',
   MENU = '/menus',
-  ROLE = '/roles'
+  ROLE = '/roles',
+  CONTENT = '/articles'
 }
