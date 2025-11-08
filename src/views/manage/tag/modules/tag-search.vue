@@ -32,7 +32,7 @@ function search() {
         <NForm :model="model" label-placement="left" :label-width="80">
           <NGrid responsive="screen" item-responsive>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.tag.name')" path="name" class="pr-24px">
-              <NInput v-model:value="model.search" :placeholder="$t('page.manage.tag.form.name')" />
+              <NInput v-model:value="model.name" :placeholder="$t('page.manage.tag.form.name')" />
             </NFormItemGi>
             <!--
  <NFormItemGi span="24 s:12" :label="$t('page.manage.tag.slug')" path="slug" class="pr-24px">

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { articleEditTypeOptions, articleStatusOptions } from '@/constants/business';
+import { fetchGetCategoryTree } from '@/service/api/category';
 import { translateOptions } from '@/utils/common';
 import { $t } from '@/locales';
 
@@ -26,6 +27,10 @@ const booleanOptions = computed(() => [
   { label: $t('common.yesOrNo.no'), value: false }
 ]);
 
+const categoryOptions = ref<NaiveUI.CascaderOption[]>([]);
+const categoryLoading = ref(false);
+const categoryPath = ref<string[]>([]);
+
 function reset() {
   emit('reset');
 }
@@ -33,6 +38,52 @@ function reset() {
 function search() {
   emit('search');
 }
+
+function transformCategoryToOptions(tree: Api.SystemManage.CategoryTree[]): NaiveUI.CascaderOption[] {
+  return tree.map(item => ({
+    label: item.name,
+    value: item.id,
+    children: item.children?.length ? transformCategoryToOptions(item.children) : undefined
+  }));
+}
+
+function findCategoryPath(
+  options: NaiveUI.CascaderOption[],
+  target: string,
+  path: string[] = []
+): string[] | null {
+  for (const option of options) {
+    const current = [...path, option.value as string];
+    if (option.value === target) return current;
+    if (option.children?.length) {
+      const childPath = findCategoryPath(option.children, target, current);
+      if (childPath) return childPath;
+    }
+  }
+  return null;
+}
+
+async function loadCategories() {
+  categoryLoading.value = true;
+  try {
+    const { data } = await fetchGetCategoryTree();
+    categoryOptions.value = transformCategoryToOptions(data || []);
+    if (model.value.categoryId) {
+      const path = findCategoryPath(categoryOptions.value, model.value.categoryId);
+      categoryPath.value = path || [];
+    }
+  } finally {
+    categoryLoading.value = false;
+  }
+}
+
+watch(categoryPath, value => {
+  model.value.categoryId = value?.[value.length - 1] || '';
+});
+
+onMounted(() => {
+  loadCategories();
+});
 </script>
 
 <template>
@@ -49,13 +100,15 @@ function search() {
             >
               <NInput v-model:value="model.title" :placeholder="$t('page.manage.content.search.title')" />
             </NFormItemGi>
-            <NFormItemGi
-              span="24 s:12 m:6"
-              class="pr-24px"
-              :label="$t('page.manage.content.category')"
-              path="categoryId"
-            >
-              <NInput v-model:value="model.categoryId" :placeholder="$t('page.manage.content.search.category')" />
+            <NFormItemGi span="24 s:12 m:6" class="pr-24px" :label="$t('page.manage.content.category')" path="categoryId">
+              <NCascader
+                v-model:value="categoryPath"
+                :options="categoryOptions"
+                :loading="categoryLoading"
+                :leaf-only="true"
+                clearable
+                :placeholder="$t('page.manage.content.search.category')"
+              />
             </NFormItemGi>
             <NFormItemGi
               span="24 s:12 m:6"

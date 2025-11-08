@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import dayjs from 'dayjs';
 import { articleEditTypeOptions } from '@/constants/business';
 import { createArticle, updateArticle } from '@/service/api/content';
+import { fetchGetCategoryTree } from '@/service/api/category';
+import { fetchGetTagList } from '@/service/api/tag';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { translateOptions } from '@/utils/common';
 import { $t } from '@/locales';
@@ -20,23 +22,20 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
-const emit = defineEmits<{
-  (e: 'submitted'): void;
-}>();
-
-const visible = defineModel<boolean>('visible', {
-  default: false
-});
-
-const loading = ref(false);
+const emit = defineEmits<{ (e: 'submitted'): void }>();
+const visible = defineModel<boolean>('visible', { default: false });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
+const loading = ref(false);
 const editTypeOptions = computed(() => translateOptions(articleEditTypeOptions));
+const categoryOptions = ref<NaiveUI.CascaderOption[]>([]);
+const tagOptions = ref<NaiveUI.SelectOption[]>([]);
+const categoryLoading = ref(false);
+const tagLoading = ref(false);
 
-type Model = Api.SystemManage.CreateArticle & { tagIdsInput?: string };
+type Model = Api.SystemManage.CreateArticle;
 
 const editorContentMap = ref<Record<Api.SystemManage.ArticleEditType, string>>({
   MARKDOWN: '',
@@ -45,13 +44,6 @@ const editorContentMap = ref<Record<Api.SystemManage.ArticleEditType, string>>({
 });
 
 const model = ref<Model>(createDefaultModel());
-
-const currentEditorContent = computed({
-  get: () => editorContentMap.value[model.value.editorType] || '',
-  set: val => {
-    editorContentMap.value[model.value.editorType] = val;
-  }
-});
 
 function createDefaultModel(): Model {
   return {
@@ -63,13 +55,12 @@ function createDefaultModel(): Model {
     contentHtml: '',
     contentRaw: '',
     coverImage: '',
-    categoryId: '',
+    categoryId: null,
     tagIds: [],
     author: '',
     publishTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     isTop: false,
-    isRecommend: false,
-    tagIdsInput: ''
+    isRecommend: false
   };
 }
 
@@ -79,25 +70,37 @@ const drawerTitle = computed(() =>
   isEdit.value ? $t('page.manage.content.editArticle') : $t('page.manage.content.addArticle')
 );
 
-const rules: Record<string, App.Global.FormRule | App.Global.FormRule[]> = {
+const booleanRule: App.Global.FormRule = {
+  type: 'boolean',
+  trigger: ['change']
+};
+
+const rules: Record<keyof Model, App.Global.FormRule | App.Global.FormRule[]> = {
   title: defaultRequiredRule,
+  slug: {},
   summary: defaultRequiredRule,
   editorType: defaultRequiredRule,
   categoryId: defaultRequiredRule,
+  tagIds: defaultRequiredRule,
+  coverImage: defaultRequiredRule,
   author: defaultRequiredRule,
-  coverImage: defaultRequiredRule
+  publishTime: defaultRequiredRule,
+  contentMd: {},
+  contentHtml: {},
+  contentRaw: {},
+  isTop: booleanRule,
+  isRecommend: booleanRule
 };
+
+const currentEditorContent = computed({
+  get: () => editorContentMap.value[model.value.editorType] || '',
+  set: val => {
+    editorContentMap.value[model.value.editorType] = val;
+  }
+});
 
 function closeDrawer() {
   visible.value = false;
-}
-
-function parseTagIds(input?: string) {
-  if (!input) return [];
-  return input
-    .split(',')
-    .map(item => item.trim())
-    .filter(Boolean);
 }
 
 function resetEditorContent(article?: Api.SystemManage.Article | null) {
@@ -106,6 +109,14 @@ function resetEditorContent(article?: Api.SystemManage.Article | null) {
     RICHTEXT: article?.contentHtml || '',
     UPLOAD: article?.contentRaw || ''
   };
+}
+
+function transformCategoryToOptions(tree: Api.SystemManage.CategoryTree[]): NaiveUI.CascaderOption[] {
+  return tree.map(item => ({
+    label: item.name,
+    value: item.id,
+    children: item.children?.length ? transformCategoryToOptions(item.children) : undefined
+  }));
 }
 
 function handleInitModel() {
@@ -120,13 +131,12 @@ function handleInitModel() {
       contentHtml: article.contentHtml || '',
       contentRaw: article.contentRaw || '',
       coverImage: article.coverImage || '',
-      categoryId: article.categoryId || '',
-      tagIds: article.tagIds || [],
+      categoryId: article.categoryId || null,
+      tagIds: article.tagIds ? [...article.tagIds] : [],
       author: article.author || '',
       publishTime: article.publishTime || '',
       isTop: article.isTop ?? false,
-      isRecommend: article.isRecommend ?? false,
-      tagIdsInput: (article.tagIds || []).join(', ')
+      isRecommend: article.isRecommend ?? false
     };
     resetEditorContent(article);
   } else {
@@ -139,17 +149,14 @@ async function handleSubmit() {
   loading.value = true;
   try {
     await validate();
-    const tagIds = parseTagIds(model.value.tagIdsInput);
-    model.value.tagIds = tagIds;
-
     const payload: Api.SystemManage.CreateArticle = {
       title: model.value.title,
       slug: model.value.slug,
       summary: model.value.summary,
       editorType: model.value.editorType,
       coverImage: model.value.coverImage,
-      categoryId: model.value.categoryId || '',
-      tagIds,
+      categoryId: model.value.categoryId,
+      tagIds: model.value.tagIds || [],
       author: model.value.author,
       publishTime: model.value.publishTime,
       isTop: model.value.isTop,
@@ -186,6 +193,32 @@ watch(visible, value => {
     restoreValidation();
   }
 });
+
+async function loadCategories() {
+  categoryLoading.value = true;
+  try {
+    const { data } = await fetchGetCategoryTree();
+    categoryOptions.value = transformCategoryToOptions(data || []);
+  } finally {
+    categoryLoading.value = false;
+  }
+}
+
+async function loadTags() {
+  tagLoading.value = true;
+  try {
+    const { data } = await fetchGetTagList({ current: 1, size: 999 });
+    const list = data?.records || [];
+    tagOptions.value = list.map(item => ({ label: item.name, value: item.id }));
+  } finally {
+    tagLoading.value = false;
+  }
+}
+
+onMounted(() => {
+  loadCategories();
+  loadTags();
+});
 </script>
 
 <template>
@@ -207,7 +240,14 @@ watch(visible, value => {
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.category')" path="categoryId">
-          <NInput v-model:value="model.categoryId" :placeholder="$t('page.manage.content.form.category')" />
+          <NCascader
+            v-model:value="model.categoryId"
+            :options="categoryOptions"
+            :loading="categoryLoading"
+            :leaf-only="true"
+            clearable
+            :placeholder="$t('page.manage.content.form.category')"
+          />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.author')" path="author">
           <NInput v-model:value="model.author" :placeholder="$t('page.manage.content.form.author')" />
@@ -216,10 +256,12 @@ watch(visible, value => {
           <NInput v-model:value="model.coverImage" :placeholder="$t('page.manage.content.form.coverImage')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.tagIds')" path="tagIds">
-          <NInput
-            v-model:value="model.tagIdsInput"
-            type="textarea"
-            :autosize="{ minRows: 2, maxRows: 4 }"
+          <NSelect
+            v-model:value="model.tagIds"
+            multiple
+            :options="tagOptions"
+            :loading="tagLoading"
+            clearable
             :placeholder="$t('page.manage.content.form.tagIds')"
           />
         </NFormItem>

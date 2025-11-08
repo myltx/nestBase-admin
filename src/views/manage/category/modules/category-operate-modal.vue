@@ -23,15 +23,6 @@ const visible = defineModel<boolean>('visible', { default: false });
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 
-const orderRule: App.Global.FormRule = {
-  type: 'number',
-  trigger: ['blur', 'change'],
-  transform(value: unknown) {
-    if (value === '' || value === null || value === undefined) return undefined;
-    return Number(value);
-  }
-};
-
 type Model = Pick<Api.SystemManage.Category, 'order' | 'name' | 'slug' | 'description' | 'parentId'>;
 
 const model = ref<Model>(createDefaultModel());
@@ -59,7 +50,7 @@ const rules: Record<keyof Model, App.Global.FormRule | App.Global.FormRule[]> = 
   slug: defaultRequiredRule,
   description: {},
   parentId: {},
-  order: orderRule
+  order: {}
 };
 
 watch(visible, val => {
@@ -106,34 +97,32 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="400" :mask-closable="false">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
-      <NForm ref="formRef" :model="model" :rules="rules" label-placement="top">
-        <NFormItem :label="$t('page.manage.category.name')" path="name">
-          <NInput v-model:value="model.name" :placeholder="$t('page.manage.category.form.name')" />
-        </NFormItem>
-        <NFormItem :label="$t('page.manage.category.slug')" path="slug">
-          <NInput v-model:value="model.slug" :placeholder="$t('page.manage.category.form.slug')" />
-        </NFormItem>
-        <NFormItem :label="$t('page.manage.category.description')" path="description">
-          <NInput
-            v-model:value="model.description"
-            type="textarea"
-            :placeholder="$t('page.manage.category.form.description')"
-          />
-        </NFormItem>
-        <NFormItem :label="$t('page.manage.category.order')" path="order">
-          <NInputNumber v-model:value="model.order" :placeholder="$t('page.manage.category.form.order')" class="w-full" />
-        </NFormItem>
-      </NForm>
-      <template #footer>
-        <NSpace>
-          <NButton @click="visible = false">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" :loading="loading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
-        </NSpace>
-      </template>
-    </NDrawerContent>
-  </NDrawer>
+  <NModal v-model:show="visible" preset="card" :title="title" class="w-400px">
+    <NForm ref="formRef" :model="model" :rules="rules" label-placement="top">
+      <NFormItem :label="$t('page.manage.category.name')" path="name">
+        <NInput v-model:value="model.name" :placeholder="$t('page.manage.category.form.name')" />
+      </NFormItem>
+      <NFormItem :label="$t('page.manage.category.slug')" path="slug">
+        <NInput v-model:value="model.slug" :placeholder="$t('page.manage.category.form.slug')" />
+      </NFormItem>
+      <NFormItem :label="$t('page.manage.category.description')" path="description">
+        <NInput
+          v-model:value="model.description"
+          type="textarea"
+          :placeholder="$t('page.manage.category.form.description')"
+        />
+      </NFormItem>
+      <NFormItem :label="$t('page.manage.category.order')" path="order">
+        <NInputNumber v-model:value="model.order" :placeholder="$t('page.manage.category.form.order')" class="w-full" />
+      </NFormItem>
+    </NForm>
+    <template #footer>
+      <NSpace justify="end">
+        <NButton @click="visible = false">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" :loading="loading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+      </NSpace>
+    </template>
+  </NModal>
 </template>
 
 <style scoped></style>
