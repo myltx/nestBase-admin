@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { articleEditTypeOptions, articleStatusOptions } from '@/constants/business';
 import { fetchGetCategoryTree } from '@/service/api/category';
 import { translateOptions } from '@/utils/common';
@@ -29,7 +29,6 @@ const booleanOptions = computed(() => [
 
 const categoryOptions = ref<NaiveUI.CascaderOption[]>([]);
 const categoryLoading = ref(false);
-const categoryPath = ref<string[]>([]);
 
 function reset() {
   emit('reset');
@@ -47,39 +46,15 @@ function transformCategoryToOptions(tree: Api.SystemManage.CategoryTree[]): Naiv
   }));
 }
 
-function findCategoryPath(
-  options: NaiveUI.CascaderOption[],
-  target: string,
-  path: string[] = []
-): string[] | null {
-  for (const option of options) {
-    const current = [...path, option.value as string];
-    if (option.value === target) return current;
-    if (option.children?.length) {
-      const childPath = findCategoryPath(option.children, target, current);
-      if (childPath) return childPath;
-    }
-  }
-  return null;
-}
-
 async function loadCategories() {
   categoryLoading.value = true;
   try {
     const { data } = await fetchGetCategoryTree();
     categoryOptions.value = transformCategoryToOptions(data || []);
-    if (model.value.categoryId) {
-      const path = findCategoryPath(categoryOptions.value, model.value.categoryId);
-      categoryPath.value = path || [];
-    }
   } finally {
     categoryLoading.value = false;
   }
 }
-
-watch(categoryPath, value => {
-  model.value.categoryId = value?.[value.length - 1] || '';
-});
 
 onMounted(() => {
   loadCategories();
@@ -102,7 +77,7 @@ onMounted(() => {
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" class="pr-24px" :label="$t('page.manage.content.category')" path="categoryId">
               <NCascader
-                v-model:value="categoryPath"
+                v-model:value="model.categoryId"
                 :options="categoryOptions"
                 :loading="categoryLoading"
                 :leaf-only="true"

@@ -17,7 +17,7 @@ const topActionId = ref<number | null>(null);
 const deleteActionId = ref<number | null>(null);
 
 const previewVisible = ref(false);
-const previewArticle = ref<Api.SystemManage.Article | null>(null);
+const previewArticleId = ref<number | null>(null);
 const statusTagMap: Record<Api.SystemManage.ArticleStatus, NaiveUI.ThemeColor> = {
   DRAFT: 'default',
   PUBLISHED: 'success',
@@ -82,7 +82,7 @@ const {
       render: row => (row.tagIds && row.tagIds.length ? row.tagIds.join(', ') : '-')
     },
     {
-      key: 'author',
+      key: 'authorName',
       title: $t('page.manage.content.author'),
       width: 120
     },
@@ -187,7 +187,7 @@ const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedR
   useTableOperate(data, getData);
 
 function handlePreview(article: Api.SystemManage.Article) {
-  previewArticle.value = article;
+  previewArticleId.value = article.id;
   previewVisible.value = true;
 }
 
@@ -282,7 +282,7 @@ function edit(id: number) {
         :row-data="editingData"
         @submitted="getDataByPage"
       />
-      <ArticlePreviewDrawer v-model:visible="previewVisible" :article="previewArticle" />
+      <ArticlePreviewDrawer v-model:visible="previewVisible" :article-id="previewArticleId" />
     </NCard>
   </div>
 </template>

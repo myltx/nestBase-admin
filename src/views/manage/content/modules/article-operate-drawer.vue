@@ -57,7 +57,7 @@ function createDefaultModel(): Model {
     coverImage: '',
     categoryId: null,
     tagIds: [],
-    author: '',
+    authorName: '',
     publishTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     isTop: false,
     isRecommend: false
@@ -83,8 +83,8 @@ const rules: Record<keyof Model, App.Global.FormRule | App.Global.FormRule[]> = 
   categoryId: defaultRequiredRule,
   tagIds: defaultRequiredRule,
   coverImage: defaultRequiredRule,
-  author: defaultRequiredRule,
-  publishTime: defaultRequiredRule,
+  authorName: defaultRequiredRule,
+  publishTime: {},
   contentMd: {},
   contentHtml: {},
   contentRaw: {},
@@ -133,7 +133,7 @@ function handleInitModel() {
       coverImage: article.coverImage || '',
       categoryId: article.categoryId || null,
       tagIds: article.tagIds ? [...article.tagIds] : [],
-      author: article.author || '',
+      authorName: article.authorName || '',
       publishTime: article.publishTime || '',
       isTop: article.isTop ?? false,
       isRecommend: article.isRecommend ?? false
@@ -157,7 +157,7 @@ async function handleSubmit() {
       coverImage: model.value.coverImage,
       categoryId: model.value.categoryId,
       tagIds: model.value.tagIds || [],
-      author: model.value.author,
+      authorName: model.value.authorName,
       publishTime: model.value.publishTime,
       isTop: model.value.isTop,
       isRecommend: model.value.isRecommend
@@ -249,8 +249,8 @@ onMounted(() => {
             :placeholder="$t('page.manage.content.form.category')"
           />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.content.author')" path="author">
-          <NInput v-model:value="model.author" :placeholder="$t('page.manage.content.form.author')" />
+        <NFormItem :label="$t('page.manage.content.author')" path="authorName">
+          <NInput v-model:value="model.authorName" :placeholder="$t('page.manage.content.form.author')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.coverImage')" path="coverImage">
           <NInput v-model:value="model.coverImage" :placeholder="$t('page.manage.content.form.coverImage')" />
@@ -263,15 +263,6 @@ onMounted(() => {
             :loading="tagLoading"
             clearable
             :placeholder="$t('page.manage.content.form.tagIds')"
-          />
-        </NFormItem>
-        <NFormItem :label="$t('page.manage.content.publishTime')" path="publishTime">
-          <NDatePicker
-            v-model:formatted-value="model.publishTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
-            clearable
-            :placeholder="$t('page.manage.content.form.publishTime')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.isTop')" path="isTop">

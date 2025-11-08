@@ -203,8 +203,8 @@ declare namespace Api {
       categoryId?: string | null;
       /** tag id list */
       tagIds: string[];
-      /** author */
-      author: string;
+      /** author name */
+      authorName: string;
       /** publish time */
       publishTime?: string | null;
       /** is top */
@@ -243,7 +243,7 @@ declare namespace Api {
       | 'coverImage'
       | 'categoryId'
       | 'tagIds'
-      | 'author'
+      | 'authorName'
       | 'publishTime'
       | 'isTop'
       | 'isRecommend'

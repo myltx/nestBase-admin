@@ -65,3 +65,11 @@ export function updateArticleTop(id: number, isTop: boolean) {
     data: { isTop }
   });
 }
+
+/** 获取文章详情 */
+export function fetchArticleDetail(id: number | string) {
+  return request<Api.SystemManage.Article>({
+    url: `${ServicePrefixEnum.CONTENT}/${id}`,
+    method: RequestEnum.GET
+  });
+}
