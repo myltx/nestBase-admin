@@ -296,6 +296,7 @@ const local: App.I18n.Schema = {
         offlineAction: 'Offline',
         setTop: 'Pin to top',
         cancelTop: 'Unpin',
+        publishedReadonlyTip: 'Published articles cannot be edited or deleted. Please offline them first.',
         search: {
           title: 'Please enter article title',
           category: 'Please select category',

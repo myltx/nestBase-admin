@@ -291,6 +291,7 @@ const local: App.I18n.Schema = {
         offlineAction: '下线',
         setTop: '设为置顶',
         cancelTop: '取消置顶',
+        publishedReadonlyTip: '已发布的文章无法编辑或删除，请先下线',
         status: {
           draft: '草稿',
           published: '已发布',

@@ -44,6 +44,7 @@ const editorContentMap = ref<Record<Api.SystemManage.ArticleEditType, string>>({
 });
 
 const model = ref<Model>(createDefaultModel());
+const isArchiveEditor = computed(() => model.value.editorType === 'UPLOAD');
 
 function createDefaultModel(): Model {
   return {
@@ -98,6 +99,16 @@ const currentEditorContent = computed({
     editorContentMap.value[model.value.editorType] = val;
   }
 });
+
+watch(
+  () => model.value.editorType,
+  value => {
+    if (value === 'UPLOAD') {
+      model.value.isTop = false;
+      model.value.isRecommend = false;
+    }
+  }
+);
 
 function closeDrawer() {
   visible.value = false;
@@ -266,16 +277,30 @@ onMounted(() => {
           />
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.isTop')" path="isTop">
-          <NSwitch v-model:value="model.isTop">
-            <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
-            <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
-          </NSwitch>
+          <template v-if="isArchiveEditor">
+            <NTag type="default">
+              {{ model.isTop ? $t('common.yesOrNo.yes') : $t('common.yesOrNo.no') }}
+            </NTag>
+          </template>
+          <template v-else>
+            <NSwitch v-model:value="model.isTop">
+              <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
+              <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
+            </NSwitch>
+          </template>
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.isRecommend')" path="isRecommend">
-          <NSwitch v-model:value="model.isRecommend">
-            <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
-            <template #unchecked>{{ $t('common.yesOrNo.no') }}</template>
-          </NSwitch>
+          <template v-if="isArchiveEditor">
+            <NTag type="default">
+              {{ model.isRecommend ? $t('common.yesOrNo.yes') : $t('common.yesOrNo.no') }}
+            </NTag>
+          </template>
+          <template v-else>
+            <NSwitch v-model:value="model.isRecommend">
+              <template #checked>{{ $t('common.yesOrNo.yes') }}</template>
+              <template #unchecked">{{ $t('common.yesOrNo.no') }}</template>
+            </NSwitch>
+          </template>
         </NFormItem>
         <NFormItem :label="$t('page.manage.content.editType')" path="editorType">
           <NRadioGroup v-model:value="model.editorType">

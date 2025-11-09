@@ -66,6 +66,15 @@ export function updateArticleTop(id: number, isTop: boolean) {
   });
 }
 
+/** 更新文章推荐状态 */
+export function updateArticleRecommend(id: number, isRecommend: boolean) {
+  return request<Api.CommonResponse<null>>({
+    url: `${ServicePrefixEnum.CONTENT}/${id}/recommend`,
+    method: RequestEnum.PATCH,
+    data: { isRecommend }
+  });
+}
+
 /** 获取文章详情 */
 export function fetchArticleDetail(id: number | string) {
   return request<Api.SystemManage.Article>({
