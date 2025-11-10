@@ -168,6 +168,7 @@ const local: App.I18n.Schema = {
     500: '服务器错误',
     'iframe-page': '外链页面',
     home: '首页',
+    'home-portal': '内容工作台',
     manage: '系统管理',
     manage_user: '用户管理',
     'manage_user-detail': '用户详情',
@@ -253,6 +254,41 @@ const local: App.I18n.Schema = {
         desc5: 'Soybean 刚才把工作台页面随便写了一些，凑合能看了！'
       },
       creativity: '创意'
+    },
+    homePortal: {
+      greeting: '欢迎回来，{userName}，这里是你的内容工作台。',
+      subtitle: '快速掌握内容生产进度，并高效进入日常操作。',
+      actions: {
+        create: '立即创作'
+      },
+      metrics: {
+        totalArticle: '文章总数',
+        published: '已发布',
+        draft: '草稿箱',
+        category: '分类数量',
+        tag: '标签数量'
+      },
+      quickLinks: {
+        title: '快捷入口',
+        createContent: '新建文章',
+        createContentDesc: '提交内容草稿并进入审核流程',
+        reviewDraft: '草稿处理',
+        reviewDraftDesc: '查看待完善的草稿，安排上线',
+        manageCategory: '分类管理',
+        manageCategoryDesc: '维护内容分类结构',
+        manageTag: '标签管理',
+        manageTagDesc: '统一更新标签体系'
+      },
+      latest: {
+        title: '最新内容动态',
+        viewAll: '前往文章列表'
+      },
+      taxonomy: {
+        title: '内容资产',
+        category: '分类数量',
+        tag: '标签数量',
+        manage: '去管理'
+      }
     },
     manage: {
       common: {

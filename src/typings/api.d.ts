@@ -102,6 +102,20 @@ declare namespace Api {
       gender?: SystemManage.User['gender'];
       nickName?: string;
     }
+    /** 更新用户信息类型 */
+    interface UpdateUser {
+      id: string;
+      email: string;
+      userName: string;
+      password?: string;
+      firstName?: string;
+      lastName?: string;
+      roleIds?: string[];
+      avatar?: string;
+      phone?: string;
+      gender?: SystemManage.User['gender'];
+      nickName?: string;
+    }
 
     /** 用户权限列表类型 */
     interface UserPermission {

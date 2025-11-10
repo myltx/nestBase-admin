@@ -499,6 +499,41 @@ declare namespace App {
           };
           creativity: string;
         };
+        homePortal: {
+          greeting: string;
+          subtitle: string;
+          actions: {
+            create: string;
+          };
+          metrics: {
+            totalArticle: string;
+            published: string;
+            draft: string;
+            category: string;
+            tag: string;
+          };
+          quickLinks: {
+            title: string;
+            createContent: string;
+            createContentDesc: string;
+            reviewDraft: string;
+            reviewDraftDesc: string;
+            manageCategory: string;
+            manageCategoryDesc: string;
+            manageTag: string;
+            manageTagDesc: string;
+          };
+          latest: {
+            title: string;
+            viewAll: string;
+          };
+          taxonomy: {
+            title: string;
+            category: string;
+            tag: string;
+            manage: string;
+          };
+        };
         manage: {
           common: {
             status: {
@@ -644,6 +679,7 @@ declare namespace App {
             offlineAction: string;
             setTop: string;
             cancelTop: string;
+            publishedReadonlyTip: string;
             editTypeMap: {
               markdown: string;
               richtext: string;

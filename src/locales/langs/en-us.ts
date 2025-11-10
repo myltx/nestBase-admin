@@ -168,6 +168,7 @@ const local: App.I18n.Schema = {
     500: 'Server Error',
     'iframe-page': 'Iframe',
     home: 'Home',
+    'home-portal': 'Content Workspace',
     manage: 'System Manage',
     manage_user: 'User Manage',
     'manage_user-detail': 'User Detail',
@@ -253,6 +254,41 @@ const local: App.I18n.Schema = {
         desc5: 'Soybean just wrote some of the workbench pages casually, and it was enough to see!'
       },
       creativity: 'Creativity'
+    },
+    homePortal: {
+      greeting: 'Welcome back, {userName}. Here is your content workspace.',
+      subtitle: 'Track publishing progress and jump into daily actions quickly.',
+      actions: {
+        create: 'Create Article'
+      },
+      metrics: {
+        totalArticle: 'Total Articles',
+        published: 'Published',
+        draft: 'Drafts',
+        category: 'Categories',
+        tag: 'Tags'
+      },
+      quickLinks: {
+        title: 'Quick Links',
+        createContent: 'New Article',
+        createContentDesc: 'Start a draft and enter the review workflow',
+        reviewDraft: 'Draft Review',
+        reviewDraftDesc: 'Check pending drafts and plan publishing',
+        manageCategory: 'Manage Categories',
+        manageCategoryDesc: 'Keep the taxonomy clean and organized',
+        manageTag: 'Manage Tags',
+        manageTagDesc: 'Update the tagging system consistently'
+      },
+      latest: {
+        title: 'Latest Updates',
+        viewAll: 'Go to article list'
+      },
+      taxonomy: {
+        title: 'Content Assets',
+        category: 'Categories',
+        tag: 'Tags',
+        manage: 'Manage'
+      }
     },
     manage: {
       common: {

@@ -51,6 +51,18 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'home-portal',
+    path: '/home-portal',
+    component: 'layout.base$view.home-portal',
+    meta: {
+      title: 'home-portal',
+      i18nKey: 'route.home-portal',
+      icon: 'mdi:view-dashboard-edit',
+      order: 1.5,
+      roles: ['ADMIN', 'EDITOR', 'AUTHOR']
+    }
+  },
+  {
     name: 'iframe-page',
     path: '/iframe-page/:url',
     component: 'layout.base$view.iframe-page',

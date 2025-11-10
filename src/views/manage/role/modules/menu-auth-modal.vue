@@ -83,7 +83,8 @@ async function handleSubmit() {
   loading.value = true;
   const { error } = await updateRoleMenuList({
     id: props.roleId,
-    menuIds: checks.value
+    menuIds: checks.value,
+    home: home.value
   });
   loading.value = false;
   if (!error) {

@@ -1,4 +1,5 @@
 import { ServicePrefixEnum } from '@/enum/commonEnum';
+import { RequestEnum } from '@/enum/httpEnum';
 import { request } from '../request';
 
 /**
@@ -9,7 +10,20 @@ import { request } from '../request';
 export function createUser(data: Api.Auth.CreateUser) {
   return request<Api.Auth.LoginData>({
     url: `${ServicePrefixEnum.USER}`,
-    method: 'post',
+    method: RequestEnum.POST,
+    data
+  });
+}
+
+/**
+ * 修改用户
+ *
+ */
+
+export function updateUser(data: Api.Auth.UpdateUser) {
+  return request<Api.Auth.LoginData>({
+    url: `${ServicePrefixEnum.USER}/${data.id}`,
+    method: RequestEnum.PATCH,
     data
   });
 }
@@ -18,7 +32,7 @@ export function createUser(data: Api.Auth.CreateUser) {
 export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
   return request<Api.SystemManage.UserList>({
     url: '/users',
-    method: 'get',
+    method: RequestEnum.GET,
     params
   });
 }

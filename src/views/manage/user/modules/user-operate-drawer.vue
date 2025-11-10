@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 import { fetchGetAllRoles } from '@/service/api/role';
-import { createUser } from '@/service/api/user';
+import { createUser, updateUser } from '@/service/api/user';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 
@@ -81,7 +81,7 @@ async function getRoleOptions() {
   if (!error) {
     const options = data.map(item => ({
       label: item.name,
-      value: item.code
+      value: String(item.id)
     }));
 
     // the mock data does not have the roleCode, so fill it
@@ -110,9 +110,11 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
+
+  const apiFn: any = props.operateType === 'edit' ? updateUser : createUser;
   const { status, ...submitData } = model.value;
 
-  const { error } = await createUser({ ...submitData });
+  const { error } = await apiFn({ ...submitData });
 
   if (error) {
     console.log(status);

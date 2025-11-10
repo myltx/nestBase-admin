@@ -46,7 +46,7 @@ export function deleteRole(id: number) {
 export function fetchGetAllRoles() {
   return request<Api.SystemManage.AllRole[]>({
     url: `${ServicePrefixEnum.ROLE}`,
-    method: 'get'
+    method: RequestEnum.GET
   });
 }
 
@@ -54,13 +54,13 @@ export function fetchGetAllRoles() {
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return request<Api.SystemManage.RoleList>({
     url: `${ServicePrefixEnum.ROLE}/page`,
-    method: 'get',
+    method: RequestEnum.GET,
     params
   });
 }
 
 /** update role menu list */
-export function updateRoleMenuList(data: { id: string | number; menuIds: number[] | string[] }) {
+export function updateRoleMenuList(data: { id: string | number; menuIds: number[] | string[]; home: string }) {
   return request<Api.SystemManage.RoleList>({
     url: `${ServicePrefixEnum.ROLE}/${data.id}/menus`,
     method: RequestEnum.POST,
